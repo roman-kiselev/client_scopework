@@ -89,6 +89,13 @@ const HeaderCreateInvite = () => {
 
 const UserInvitePage = () => {
     const { data } = inviteTokensApi.useGetInviteTokensListQuery();
+    const [update, { isLoading: isLoadingUpdate }] =
+        mailApi.useSendUpdateInviteTokensMutation();
+    const onHandleUpdate = (email: string) => {
+        update({
+            email: email,
+        });
+    };
 
     return (
         <List
@@ -125,9 +132,19 @@ const UserInvitePage = () => {
                             </Col>
                             <Divider type="vertical" />
                             <Col>
-                                <Button size="small" type="primary">
-                                    Обновить приглашение
-                                </Button>
+                                {isLoadingUpdate ? (
+                                    <Spin />
+                                ) : (
+                                    <Button
+                                        onClick={() =>
+                                            onHandleUpdate(item.email)
+                                        }
+                                        size="small"
+                                        type="primary"
+                                    >
+                                        Обновить приглашение
+                                    </Button>
+                                )}
                             </Col>
                             <Divider type="vertical" />
                         </Space>
