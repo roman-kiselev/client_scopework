@@ -22,5 +22,15 @@ export const mailApi = iamApi.injectEndpoints({
                 body: data,
             }),
         }),
+        sendUpdateInviteTokens: builder.mutation<
+            IInviteToken,
+            { email: string }
+        >({
+            query: (data) => ({
+                url: `/mail/send-updated-invite-token`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 });

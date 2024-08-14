@@ -16,5 +16,12 @@ export const inviteTokensApi = iamApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        updateInviteToken: builder.mutation<IInviteToken, { id: number }>({
+            query: ({ id }) => ({
+                url: `/invite-tokens/update/${id}`,
+                method: 'PATCH',
+            }),
+        }),
     }),
 });
