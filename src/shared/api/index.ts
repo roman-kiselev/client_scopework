@@ -18,4 +18,4 @@ export { transportCompanyApi } from './transportCompany';
 export { typeWorkApi } from './typeWork';
 export { unitsApi } from './units';
 export { userDescriptionApi } from './userDescription';
-export { userApi } from './users';
+export { newUserApi, userApi } from './users';

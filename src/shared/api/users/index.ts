@@ -1,5 +1,10 @@
-import { IUser, IUserWithData, IUserWithDescription } from '../../interfaces';
-import { mainApi } from '../main';
+import {
+    IUser,
+    IUserDto,
+    IUserWithData,
+    IUserWithDescription,
+} from '../../interfaces';
+import { iamApi, mainApi } from '../main';
 
 export const userApi = mainApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -29,6 +34,17 @@ export const userApi = mainApi.injectEndpoints({
                 url: `/user/updateRoles/${id}`,
                 method: 'POST',
                 body: roles,
+            }),
+        }),
+    }),
+});
+
+export const newUserApi = iamApi.injectEndpoints({
+    endpoints: (builder) => ({
+        getAllUserList: builder.query<IUserDto[], void>({
+            query: () => ({
+                url: '/users/list',
+                method: 'GET',
             }),
         }),
     }),

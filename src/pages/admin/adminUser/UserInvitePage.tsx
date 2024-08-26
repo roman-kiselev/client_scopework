@@ -106,9 +106,9 @@ const UserInvitePage = () => {
             // dataSource={data}
             // renderItem={(item) => <List.Item>{item}</List.Item>}
         >
-            <List.Item>
-                {data?.map((item, index) => (
-                    <Row key={item.id}>
+            {data?.map((item, index) => (
+                <List.Item key={item.id}>
+                    <Row>
                         <Space>
                             <Col>{index + 1}.</Col>
                             <Col>
@@ -149,8 +149,8 @@ const UserInvitePage = () => {
                             <Divider type="vertical" />
                         </Space>
                     </Row>
-                ))}
-            </List.Item>
+                </List.Item>
+            ))}
         </List>
     );
 };
