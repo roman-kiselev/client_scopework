@@ -59,6 +59,13 @@ export const authApi = iamApi.injectEndpoints({
                 body: data,
             }),
         }),
+        changePassword: builder.mutation<any, { userId: number }>({
+            query: (data) => ({
+                url: '/authentication/change-password',
+                method: 'POST',
+                body: data,
+            }),
+        }),
 
         // TODO исправить
         edit: builder.mutation<IUserWithDescription, IEditUserDto>({

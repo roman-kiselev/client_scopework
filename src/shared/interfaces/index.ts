@@ -1,9 +1,17 @@
 export type {
+    CreateHandler,
+    ICreateCandidateDel,
     IDataError,
+    IDataGetHistoryForNameWorkId,
+    IGetHistory,
+    ILoginWithoutPasswordDto,
     IObjectCreateAttr,
     IObjectCreateResponse,
+    IResQuickOneScopeWorkById,
+    IScopeworkShort,
     IUserLogin,
     IUserRegister,
+    IUserRegisterWithOrganization,
     IUserResponseToken,
 } from './api';
 export type {
@@ -84,6 +92,8 @@ export type {
     IUnitsCreateAttr,
     IUser,
     IUserDescription,
+    IUserDescriptionDto,
+    IUserDto,
     IUserToken,
     IUserWithData,
     IUserWithDescription,

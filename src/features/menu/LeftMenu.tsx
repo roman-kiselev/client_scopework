@@ -6,6 +6,7 @@ import {
     DeploymentUnitOutlined,
     FileAddOutlined,
     HomeOutlined,
+    InteractionOutlined,
     PlusCircleOutlined,
     ProfileOutlined,
     ToolOutlined,
@@ -75,13 +76,14 @@ const LeftMenu = () => {
                     rolesState,
                     <UserOutlined />,
                     [
-                        getItem(
-                            <Link to="/admin/users/create">Создать</Link>,
-                            'usersCreate',
-                            [RoleString.ADMIN],
-                            rolesState,
-                            <UserAddOutlined />
-                        ),
+                        // getItem(
+                        //     <Link to="/admin/users/create">Создать</Link>,
+                        //     'usersCreate',
+                        //     [RoleString.ADMIN],
+                        //     rolesState,
+                        //     <UserAddOutlined />
+                        // ),
+
                         getItem(
                             <Link to="/admin/users/users-invite">
                                 Приглашения
@@ -89,7 +91,16 @@ const LeftMenu = () => {
                             'usersInvite',
                             [RoleString.ADMIN],
                             rolesState,
-                            <UnorderedListOutlined />
+                            <UserAddOutlined />
+                        ),
+                        getItem(
+                            <Link to="/admin/users/change-password">
+                                Изменить пароль
+                            </Link>,
+                            'changePassword',
+                            [RoleString.ADMIN],
+                            rolesState,
+                            <InteractionOutlined />
                         ),
                         getItem(
                             <Link to="/admin/users">Список</Link>,
@@ -132,7 +143,6 @@ const LeftMenu = () => {
                             rolesState,
                             <AppstoreAddOutlined />
                         ),
-
                         getItem(
                             <Link to="/admin/object">Статистика</Link>,
                             'configuration',
