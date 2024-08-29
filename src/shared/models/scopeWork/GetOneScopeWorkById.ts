@@ -1,9 +1,10 @@
 import { CaseReducer } from '@reduxjs/toolkit';
-import { IScopeWorkSlice, IScopeWorkWithData } from '../../interfaces';
+import { IScopeWorkSlice, IScopeWorkWithDataDto } from '../../interfaces';
 import { CreateHandler, IDataError } from '../../interfaces/api';
 
 class GetOneScopeWorkById
-    implements CreateHandler<IScopeWorkSlice, IScopeWorkWithData, IDataError>
+    implements
+        CreateHandler<IScopeWorkSlice, IScopeWorkWithDataDto, IDataError>
 {
     pending: CaseReducer<IScopeWorkSlice> = (state) => {
         state.isLoading = true;
@@ -13,18 +14,20 @@ class GetOneScopeWorkById
 
     fulfilled: CaseReducer<
         IScopeWorkSlice,
-        { payload: IScopeWorkWithData; type: string }
+        { payload: IScopeWorkWithDataDto; type: string }
     > = (state, action) => {
         state.isLoading = true;
+        console.log(action.payload);
         //state.selectedScopeWorkById = action.payload;
         state.selectedScopeWorkById.id = action.payload.id;
         state.selectedScopeWorkById.createdAt = action.payload.createdAt;
         state.selectedScopeWorkById.deletedAt = action.payload.deletedAt;
+
         state.selectedScopeWorkById.listNameWork = action.payload.listNameWork;
         state.selectedScopeWorkById.object = action.payload.object;
         state.selectedScopeWorkById.typeWork = action.payload.typeWork;
         state.selectedScopeWorkById.updatedAt = action.payload.updatedAt;
-        state.selectedScopeWorkById.users = action.payload.users;
+        state.selectedScopeWorkById.usersIds = action.payload.users;
         state.selectedScopeWorkById.listNameWorkId =
             action.payload.listNameWorkId;
         state.selectedScopeWorkById.idScopeWork = action.payload.idScopeWork;
@@ -38,14 +41,15 @@ class GetOneScopeWorkById
         state.isLoading = false;
     };
 
-    rejected: CaseReducer<IScopeWorkSlice> = (state, action) => {
+    rejected: CaseReducer<IScopeWorkSlice> = (state) => {
         state.isLoading = false;
         state.isError = true;
-        const { data, status } = action.payload as IDataError;
-        state.dataError = {
-            data: data,
-            status: Number(status),
-        };
+        // TODO - добавить обработку ошибок
+        // const { data, status } = action.payload as IDataError;
+        // state.dataError = {
+        //     data: data,
+        //     status: Number(status),
+        // };
     };
 }
 

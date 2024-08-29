@@ -1,6 +1,6 @@
 import { Button, Card, Col, Row, SelectProps, Spin } from 'antd';
 import { useState } from 'react';
-import { objectsApi, scopeWorkApi, userApi } from 'src/shared/api';
+import { newUserApi, objectsApi, scopeWorkApi } from 'src/shared/api';
 import { useAppDispatch, useAppSelector } from 'src/shared/hooks';
 import { SelectObject } from 'src/shared/ui';
 
@@ -18,7 +18,7 @@ const SimpleOrder = () => {
     //     scopeWorkId: selectedScopeWork,
     // };
 
-    const { isLoading } = userApi.useGetAllUsersQuery();
+    const { isLoading } = newUserApi.useGetAllUserListQuery();
     if (isLoading) <Spin />;
 
     const [stateScopeWork, setStateScopeWork] = useState<

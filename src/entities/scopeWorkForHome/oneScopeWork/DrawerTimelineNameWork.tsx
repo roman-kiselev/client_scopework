@@ -3,9 +3,9 @@ import { Button, Drawer, Space, Spin, Timeline } from 'antd';
 import { tableAddingDataApi } from 'src/shared/api';
 import { RoleString } from 'src/shared/config';
 import { useAppSelector } from 'src/shared/hooks';
-import { IUnit } from 'src/shared/interfaces';
+import { IUnit, IUserWithDescriptionDto } from 'src/shared/interfaces';
 import { IDataGetHistoryForNameWorkId } from 'src/shared/interfaces/api';
-import { checkRole, getDate, getUnit } from 'src/shared/utils';
+import { checkRole, getDate, getItem, getUnit } from 'src/shared/utils';
 
 interface IDrawerTimelineNameWork {
     name: string;
@@ -31,7 +31,6 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
     dataUnit,
     unitId,
     roles,
-
     handleClickQuery,
     refetch,
     isLoading,
@@ -43,6 +42,7 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
         tableAddingDataApi.useCreateCandidateDelMutation();
     const [handleConfirm] = tableAddingDataApi.useConfirmMutation();
 
+    const { listUsers } = useAppSelector((store) => store.users);
     const handleClickRemove = (id: number) => {
         handleRemove({ id: id });
         handleClickQuery();
@@ -90,7 +90,21 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
                                             : { color: 'grey' }
                                     }
                                 >
-                                    {item.id}. {item.firstname} {item.lastname}{' '}
+                                    {item.id}.{' '}
+                                    {
+                                        getItem<IUserWithDescriptionDto>(
+                                            listUsers,
+                                            item.userId,
+                                            'id'
+                                        )?.description.firstname
+                                    }{' '}
+                                    {
+                                        getItem<IUserWithDescriptionDto>(
+                                            listUsers,
+                                            item.userId,
+                                            'id'
+                                        )?.description.lastname
+                                    }{' '}
                                     - {item.quntity}{' '}
                                     {getUnit(dataUnit, unitId) || `ед.`}- (
                                     {getDate(item.createdAt)})

@@ -1,4 +1,5 @@
 import { Button, Col, Input, Row, Space } from 'antd';
+import { useEffect } from 'react';
 import { tableAddingDataApi } from 'src/shared/api';
 import { useAppSelector } from 'src/shared/hooks';
 import { IValueForListData } from 'src/shared/interfaces';
@@ -45,7 +46,8 @@ const ColumnQuntityQuick: React.FC<IColumnQuntityQuickProps> = ({
     scopeWorkId,
 }) => {
     const { id: userId } = useAppSelector((store) => store.auth);
-    const [setTableAddingData] = tableAddingDataApi.useAddDataMutation();
+    const [setTableAddingData, { isLoading }] =
+        tableAddingDataApi.useAddDataMutation();
 
     const getValue = (id: number, listNameWorkId: number) => {
         const findedValue = data.find(
@@ -75,8 +77,13 @@ const ColumnQuntityQuick: React.FC<IColumnQuntityQuickProps> = ({
                 value,
             };
         }
+
         setDataList(updatedList);
     };
+
+    useEffect(() => {
+        refetch();
+    }, [isLoading]);
 
     const editData = (
         currentQuntity: number,
@@ -95,6 +102,7 @@ const ColumnQuntityQuick: React.FC<IColumnQuntityQuickProps> = ({
                 userId,
             });
         }
+
         refetch();
         setValue(nameWorkId, listNameWorkId);
     };

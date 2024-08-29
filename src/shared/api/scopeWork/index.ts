@@ -9,6 +9,7 @@ import {
     IResScopeWorkByUserAndObject,
     IScopeWork,
     IScopeWorkWithData,
+    IScopeWorkWithDataDto,
 } from '../../interfaces/models';
 import { mainApi } from '../main';
 
@@ -20,13 +21,16 @@ export const scopeWorkApi = mainApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
-        getOneByIdScopeWork: builder.query<IScopeWorkWithData, { id: number }>({
-            query: (id) => ({
-                url: `/scope-work/${id.id}`,
+        getOneByIdScopeWork: builder.query<
+            IScopeWorkWithDataDto,
+            { id: number }
+        >({
+            query: ({ id }) => ({
+                url: `/scope-work/${id}`,
                 method: 'GET',
             }),
         }),
-        create: builder.mutation<IScopeWork, ICreateScopeWork>({
+        createScopeWork: builder.mutation<IScopeWork, ICreateScopeWork>({
             query: (data) => ({
                 url: '/scope-work',
                 method: 'POST',

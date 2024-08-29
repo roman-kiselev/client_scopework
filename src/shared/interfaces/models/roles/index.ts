@@ -1,3 +1,4 @@
 import { IRole } from './IRole';
+import { IRoleDto } from './res/IRoleDto';
 
-export type { IRole };
+export type { IRole, IRoleDto };

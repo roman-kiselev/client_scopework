@@ -55,7 +55,6 @@ const CreateProvider: React.FC<CreateProviderProps> = ({
         form.resetFields();
     }
     const handleCreate = () => {
-        console.log(dataForm);
         createProvider(dataForm);
     };
 

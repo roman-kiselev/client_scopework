@@ -1,25 +1,28 @@
 import { Col, Progress, Row, Spin, Statistic } from 'antd';
-import { userApi } from '../../../../shared/api';
+import { newUserApi } from 'src/shared/api';
 import { useAppSelector } from '../../../../shared/hooks';
-import { IObjectFullData, IUser } from '../../../../shared/interfaces';
+import {
+    IObjectFullData,
+    IUserWithDescriptionDto,
+} from '../../../../shared/interfaces';
 
 interface ObjectInfoProps {
     oneObjectWithFullData: IObjectFullData;
 }
 
-const getUserName = (userId: number, data: IUser[]) => {
+const getUserName = (userId: number, data: IUserWithDescriptionDto[]) => {
     const findedUser = data.find((item) => item.id === userId);
     if (findedUser) {
         return (
-            findedUser.userDescription.firstname +
+            findedUser.description.firstname +
             ' ' +
-            findedUser.userDescription.lastname
+            findedUser.description.lastname
         );
     }
 };
 
 const ObjectInfo: React.FC<ObjectInfoProps> = ({ oneObjectWithFullData }) => {
-    const { isLoading: isLoadingUsers } = userApi.useGetAllUsersQuery();
+    const { isLoading: isLoadingUsers } = newUserApi.useGetAllUserListQuery();
     const { listUsers, isLoading: isLoadingStore } = useAppSelector(
         (store) => store.users
     );

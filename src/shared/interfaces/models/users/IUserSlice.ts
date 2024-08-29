@@ -1,10 +1,10 @@
 import { IDataError } from '../../api';
-import { IUser } from './IUser';
-import { IUserWithDescription } from './IUserWithDescription';
+import { IUserWithDescriptionAndRolesDto } from './res/IUserWithDescriptionAndRolesDto';
+import { IUserWithDescriptionDto } from './res/IUserWithDescriptionDto';
 
 export interface IUsersSlice {
-    listUsers: IUser[] | [];
-    oneUserWithDescription: IUserWithDescription | null;
+    listUsers: IUserWithDescriptionDto[] | [];
+    oneUserWithDescription: IUserWithDescriptionAndRolesDto | null;
     isLoading: boolean;
     isError: boolean;
     dataError: IDataError | null;

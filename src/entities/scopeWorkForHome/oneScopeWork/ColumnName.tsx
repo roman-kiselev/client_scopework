@@ -35,10 +35,12 @@ const ColumnName: React.FC<IColumnNameProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const { roles } = useAppSelector((store) => store.auth);
+
     const { data: dataUnit } = unitsApi.useGetAllUnitsQuery();
     const [dataTimeline, setDataTimeline] = useState<
         IDataGetHistoryForNameWorkId[] | []
     >([]);
+
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);
@@ -55,7 +57,7 @@ const ColumnName: React.FC<IColumnNameProps> = ({
                 scopeWorkId: Number(scopeWorkId),
             })
         ).unwrap();
-
+        console.log(data);
         setDataTimeline(data);
     };
 

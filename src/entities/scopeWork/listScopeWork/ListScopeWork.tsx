@@ -2,10 +2,10 @@ import { Spin, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import {
+    newUserApi,
     objectsApi,
     scopeWorkApi,
     typeWorkApi,
-    userApi,
 } from '../../../shared/api';
 
 interface DataType {
@@ -55,7 +55,8 @@ const columns: ColumnsType<DataType> = [
 const ListScopeWork = () => {
     const { data: dataScopeWork, isLoading: isLoadingScopeWorkAll } =
         scopeWorkApi.useGetAllScopeWorkQuery();
-    const { isLoading: isLoadingUser } = userApi.useGetAllUsersQuery();
+
+    const { isLoading: isLoadingUser } = newUserApi.useGetAllUserListQuery();
     const { data: dataObject, isLoading: isLoadingObject } =
         objectsApi.useGetAllObjectsQuery();
     const { data: dataTypeWork, isLoading: isLoadingScopeWork } =

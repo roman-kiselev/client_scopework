@@ -2,7 +2,7 @@ import { Col, Input, Spin, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { scopeWorkApi } from 'src/shared/api';
+import { newUserApi, scopeWorkApi } from 'src/shared/api';
 import { useAppSelector } from 'src/shared/hooks';
 import { IValueForListData } from 'src/shared/interfaces';
 import { IResQuickOneScopeWorkById } from 'src/shared/interfaces/api';
@@ -12,6 +12,9 @@ import ColumnQuntityQuick from './oneScopeWorkQuick/ColumnQuntityQuick';
 const OneScopeWorkForEditQuick = () => {
     const { id: idScopeWork } = useParams();
     const { banned } = useAppSelector((store) => store.auth);
+
+    const { isLoading: isLoadingUser } = newUserApi.useGetAllUserListQuery();
+
     const {
         data: scopeWorkDataQuick,
         isLoading,
@@ -42,10 +45,11 @@ const OneScopeWorkForEditQuick = () => {
                 listNameWorkId: item.listNameWorkId,
             } as IValueForListData;
         });
+
         setDataList(dataValue || []);
     }, [idScopeWork, scopeWorkDataQuick]);
 
-    if (isLoading) {
+    if (isLoading || isLoadingUser) {
         return <Spin />;
     }
 
