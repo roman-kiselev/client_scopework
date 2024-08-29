@@ -19,17 +19,12 @@ const ShortListNamesWithoutTypes = () => {
     const { idNumber, typeWorkId } = useAppSelector(
         (store) => store.nameWorkList.oneItem
     );
-    // const [valueOption, setValueOption] = useState(0);
 
     const { data: dataNameWork } =
         nameWorkApi.useGetAllNameWorkByTypeWorkIdQuery({
             typeWorkId:
                 idNumber && typeWorkId !== null ? typeWorkId : selectedTypeWork,
         });
-
-    // const {  } = useAppSelector(
-    //     (store) => store.nameWorkList.oneItem
-    // );
 
     const { selectedData } = useAppSelector((store) => store.nameWork);
 
@@ -82,16 +77,18 @@ const ShortListNamesWithoutTypes = () => {
         setSelectedRowKeys([]);
     };
 
-    const newDataNameWork: IDataSourse[] | undefined = [];
+    const newDataNameWork: IDataSourse[] = [];
     if (dataNameWork) {
-        dataNameWork.map((name) => {
-            const { id, name: nameWork, unit } = name;
-            newDataNameWork.push({
-                id: id,
-                key: id,
-                name: nameWork,
-                unit: unit ? unit.name : 'шт',
-            } as IDataSourse);
+        dataNameWork.forEach((name) => {
+            if (name) {
+                const { id, name: nameWork, unit } = name;
+                newDataNameWork.push({
+                    id: id,
+                    key: id,
+                    name: nameWork,
+                    unit: unit ? unit.name : 'шт',
+                } as IDataSourse);
+            }
         });
     }
 
