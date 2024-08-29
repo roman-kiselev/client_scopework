@@ -82,18 +82,18 @@ const ShortListNamesWithoutTypes = () => {
         setSelectedRowKeys([]);
     };
 
-    const newDataNameWork: IDataSourse[] | undefined = dataNameWork?.map(
-        (name) => {
+    const newDataNameWork: IDataSourse[] | undefined = [];
+    if (dataNameWork) {
+        dataNameWork.map((name) => {
             const { id, name: nameWork, unit } = name;
-
-            return {
+            newDataNameWork.push({
                 id: id,
                 key: id,
                 name: nameWork,
                 unit: unit ? unit.name : 'шт',
-            } as IDataSourse;
-        }
-    );
+            } as IDataSourse);
+        });
+    }
 
     return (
         <Row style={{ maxHeight: '70vh' }}>
