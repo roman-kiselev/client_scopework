@@ -102,8 +102,17 @@ const LeftMenu = () => {
                             rolesState,
                             <InteractionOutlined />
                         ),
+                        // TODO Список пользователей со статистикой
+                        // getItem(
+                        //     <Link to="/admin/users">Список</Link>,
+
+                        //     'usersList',
+                        //     [RoleString.ADMIN],
+                        //     rolesState,
+                        //     <UnorderedListOutlined />
+                        // ),
                         getItem(
-                            <Link to="/admin/users">Список</Link>,
+                            <Link to="/admin/users-short">Общий список</Link>,
 
                             'usersList',
                             [RoleString.ADMIN],

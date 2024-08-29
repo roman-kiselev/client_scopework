@@ -15,5 +15,12 @@ export const typeWorkApi = mainApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        createTypeWork: builder.mutation<ITypeWork, ITypeWork>({
+            query: (body) => ({
+                url: '/type-work',
+                method: 'POST',
+                body,
+            }),
+        }),
     }),
 });

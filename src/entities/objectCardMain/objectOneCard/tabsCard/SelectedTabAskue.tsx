@@ -13,8 +13,6 @@ const SelectedTabAskue = () => {
         }
     }
 
-    console.log(typeData);
-
     return <h3>Askue</h3>;
 };
 

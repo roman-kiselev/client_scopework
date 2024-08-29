@@ -1,15 +1,15 @@
-import { Button, Row } from 'antd';
+import { Button, Row, Spin } from 'antd';
 import {
+    newUserApi,
     objectsApi,
     scopeWorkApi,
     typeWorkApi,
-    userApi,
 } from '../../../shared/api';
 import { useAppDispatch, useAppSelector } from '../../../shared/hooks';
 import {
     IObjectCreateResponse,
     ITypeWork,
-    IUser,
+    IUserWithDescriptionDto,
 } from '../../../shared/interfaces';
 import {
     addObject,
@@ -22,12 +22,13 @@ import { SelectObject, SelectTypeWork, SelectUser } from '../../../shared/ui';
 import BodyCreateScopeWork from './BodyCreateScopeWork';
 
 const getOptionsObjectUsersTypeWork = (
-    arrUsers: IUser[],
+    arrUsers: IUserWithDescriptionDto[],
     arrTypeWork: ITypeWork[],
     arrObject: IObjectCreateResponse[]
 ) => {
     const listUsersOption = arrUsers.map((item) => {
-        const { firstname, lastname, userId } = item.userDescription;
+        const { id: userId } = item;
+        const { firstname, lastname } = item.description;
 
         const label = `${lastname ?? ''} ${Array.from(firstname)[0] ?? ''}.`;
         return {
@@ -59,10 +60,15 @@ const getOptionsObjectUsersTypeWork = (
 
 const CreateScopeWork = () => {
     const dispatch = useAppDispatch();
-    const [createScopeWork] = scopeWorkApi.useCreateMutation();
-    const { data: dataObject } = objectsApi.useGetAllObjectsQuery();
-    const { data: dataUsers } = userApi.useGetAllUsersQuery();
-    const { data: dataTypeWork } = typeWorkApi.useGetAllTypeWorkQuery();
+    const [createScopeWork] = scopeWorkApi.useCreateScopeWorkMutation();
+    const { data: dataObject, isLoading: isLoadingObject } =
+        objectsApi.useGetAllObjectsQuery();
+
+    const { data: dataUsers, isLoading: isLoadingUser } =
+        newUserApi.useGetAllUserListQuery();
+
+    const { data: dataTypeWork, isLoading: isLoadingTypeWork } =
+        typeWorkApi.useGetAllTypeWorkQuery();
     const { listUsers } = useAppSelector((store) => store.users);
     const { listTypeWork } = useAppSelector((store) => store.typeWork);
     const { listObject } = useAppSelector((store) => store.objects);
@@ -123,20 +129,32 @@ const CreateScopeWork = () => {
                     }}
                 >
                     <h4>Создание нового объёма работ</h4>
-                    <SelectTypeWork
-                        handleChange={handleSetTypeWork}
-                        options={listTypeWorkOption}
-                    />
-                    <SelectObject
-                        //defaultValue={}
-                        handleChange={handleSetObject}
-                        options={listObjectOption}
-                    />
-                    <SelectUser
-                        defaultValue={[]}
-                        handleChange={handleSetUsers}
-                        options={listUsersOption}
-                    />
+                    {isLoadingTypeWork ? (
+                        <Spin />
+                    ) : (
+                        <SelectTypeWork
+                            handleChange={handleSetTypeWork}
+                            options={listTypeWorkOption}
+                        />
+                    )}
+                    {isLoadingObject ? (
+                        <Spin />
+                    ) : (
+                        <SelectObject
+                            handleChange={handleSetObject}
+                            options={listObjectOption}
+                        />
+                    )}
+                    {isLoadingUser ? (
+                        <Spin />
+                    ) : (
+                        <SelectUser
+                            defaultValue={[]}
+                            handleChange={handleSetUsers}
+                            options={listUsersOption}
+                        />
+                    )}
+
                     <Button
                         onClick={handleClickCreate}
                         disabled={

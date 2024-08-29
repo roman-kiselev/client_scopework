@@ -53,7 +53,9 @@ const FormTableNameCheck = () => {
     const handleClickModal = () => {
         if (dataItem) {
             addRow({
-                id: +idOrder ?? 0,
+                // TODO внёс поправки
+                // id: +idOrder ?? 0,
+                id: +idOrder,
                 dto: { newRowQuantity: +dataQuantity.quantity, ...dataItem },
             });
         }

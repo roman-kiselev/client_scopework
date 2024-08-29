@@ -19,14 +19,15 @@ class GetOneByTypeWorkId
         state.isLoading = false;
     };
 
-    rejected: CaseReducer<IScopeWorkSlice> = (state, action) => {
+    rejected: CaseReducer<IScopeWorkSlice> = (state) => {
         state.isLoading = false;
         state.isError = true;
-        const { data, status } = action.payload as IDataError;
-        state.dataError = {
-            data: data,
-            status: Number(status),
-        };
+        // TODO - добавить обработку ошибок
+        // const { data, status } = action.payload as IDataError;
+        // state.dataError = {
+        //     data: data,
+        //     status: Number(status),
+        // };
     };
 }
 

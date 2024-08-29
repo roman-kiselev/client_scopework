@@ -32,6 +32,7 @@ export const getDateWithTime = (createDate: Date) => {
     };
 };
 
+
 export function getItem<T>(data: T[], id: number, field: keyof T) {
     return data.find((item: T) => item[field] === id);
 }

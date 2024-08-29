@@ -2,14 +2,14 @@ import { IDataError, IObjectCreateResponse } from '../../api';
 import { INameWorkWithNameList } from '../nameWork';
 import { INameListWork } from '../nameWorkList';
 import { ITypeWork } from '../typeWork';
-import { IUser } from '../users';
+import { IUserWithDescriptionDto } from '../users';
 import { IScopeWorkWithData } from './IScopeWorkWithData';
 
 export interface IScopeWorkData {
     listNameWork: INameListWork[] | [];
     namesWorkGeneral: INameWorkWithNameList[] | [];
     object: IObjectCreateResponse | null;
-    users: IUser[] | [];
+    users: IUserWithDescriptionDto[] | [];
     typeWork: ITypeWork | null;
 }
 

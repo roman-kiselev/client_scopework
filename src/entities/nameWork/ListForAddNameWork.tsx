@@ -57,7 +57,6 @@ const ListForAddNameWork = () => {
     //const [dataExcel, setDataExcel] = useState<INameWorkFromExcel[] | []>([]);
     const { data: dataUnits } = unitsApi.useGetAllUnitsQuery();
     const { data: dataTypeWork } = typeWorkApi.useGetAllShortQuery();
-
     const arrUnit = new ModelArrStandart<IUnit>(dataUnits ?? []);
     const arrTypeWork = new ModelArrStandart<ITypeWork>(dataTypeWork ?? []);
     // Уведомление о сохранении
@@ -167,7 +166,7 @@ const ListForAddNameWork = () => {
         dispatch(setSelectedTypeWork(value));
         setValueOption(value);
     };
-    //const [stateId, setStateId] = useState<number>(1);
+
     const { isError: isErrorMain } = useAppSelector(
         (store) => store.nameWorkList
     );
@@ -211,17 +210,12 @@ const ListForAddNameWork = () => {
                     row: item.__rowNum__,
                 };
             });
-
             handleSelectChange(excelDataForAdd[0].typeWorkId);
             const dataEditQuantity = sumQuantity(excelDataForAdd);
             await createNameWork(dataEditQuantity);
-
-            // console.log(dataResponse);
-            //setData(excelData);
-            //console.log(excelData); // Вывод данных из Excel в консоль
         };
-        //console.log(dataCreateNameWork);
-        reader.readAsDataURL(file);
+
+        reader.readAsArrayBuffer(file);
     };
 
     // Функция первого сохранения

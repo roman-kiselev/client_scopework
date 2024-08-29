@@ -134,7 +134,6 @@ const CreateNameWorkExcel = () => {
             const sheet = workbook.Sheets[sheetName];
             const excelData: DataType[] = XLSX.utils.sheet_to_json(sheet);
             setData(excelData);
-            //console.log(excelData); // Вывод данных из Excel в консоль
         };
         reader.readAsBinaryString(file);
     };

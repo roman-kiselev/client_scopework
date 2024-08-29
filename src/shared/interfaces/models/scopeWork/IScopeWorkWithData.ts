@@ -2,7 +2,7 @@ import { IObjectCreateResponse } from '../../api';
 import { INameWorkWithNameList } from '../nameWork';
 import { INameListWork } from '../nameWorkList';
 import { ITypeWork } from '../typeWork';
-import { IUser } from '../users';
+import { IUserIdsDto, IUserWithDescriptionDto } from '../users';
 // interface IMainCountData {
 //     listNameWorkId: string[];
 //     idScopeWork: string[];
@@ -12,6 +12,7 @@ import { IUser } from '../users';
 //     addingCount: number;
 //     percent: string;
 // }
+
 export interface IScopeWorkWithData {
     id: number | null;
     deletedAt: Date | null;
@@ -22,7 +23,8 @@ export interface IScopeWorkWithData {
     createdAt: Date | '';
     updatedAt: Date | '';
     listNameWork: INameListWork[] | [];
-    users: IUser[] | [];
+    users: IUserWithDescriptionDto[] | [];
+    usersIds: IUserIdsDto[] | [];
     namesWorkGeneral: INameWorkWithNameList[] | [];
     // mainCountData: IMainCountData | null;
     listNameWorkId: string[] | [];

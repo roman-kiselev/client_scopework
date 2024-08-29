@@ -14,6 +14,7 @@ export type {
     IUserRegisterWithOrganization,
     IUserResponseToken,
 } from './api';
+
 export type {
     IAcceptRowDto,
     IAddRowInOrderReceipt,
@@ -74,11 +75,13 @@ export type {
     IProviderWithTk,
     IResScopeWorkByUserAndObject,
     IRole,
+    IRoleDto,
     IScopeWork,
     IScopeWorkData,
     IScopeWorkPlusData,
     IScopeWorkSlice,
     IScopeWorkWithData,
+    IScopeWorkWithDataDto,
     ISendInviteDto,
     ISignUp,
     IStorage,
@@ -94,12 +97,16 @@ export type {
     IUserDescription,
     IUserDescriptionDto,
     IUserDto,
+    IUserIdsDto,
     IUserToken,
     IUserWithData,
     IUserWithDescription,
+    IUserWithDescriptionAndRolesDto,
+    IUserWithDescriptionDto,
     IUsersSlice,
     IValueForListData,
     ItemForListNameWork,
     StatusOrderReceiptName,
 } from './models';
+
 export type { IInputFormItemProps, IInputPasswordFormItemProps } from './ui';

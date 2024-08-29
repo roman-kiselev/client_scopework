@@ -43,11 +43,7 @@ const TableSelected = () => {
             dataIndex: 'number',
             key: 'number',
             render: (num) => (
-                <Link
-                    to={`http://localhost:3000/admin/object/list/listItem/${num}`}
-                >
-                    {num}
-                </Link>
+                <Link to={`/admin/object/list/listItem/${num}`}>{num}</Link>
             ),
         },
         {

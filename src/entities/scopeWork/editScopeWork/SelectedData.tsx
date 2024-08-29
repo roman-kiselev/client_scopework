@@ -2,16 +2,16 @@ import { Button, Row, Spin } from 'antd';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import {
+    newUserApi,
     objectsApi,
     scopeWorkApi,
     typeWorkApi,
-    userApi,
 } from '../../../shared/api';
 import { useAppDispatch, useAppSelector } from '../../../shared/hooks';
 import {
     IObjectCreateResponse,
     ITypeWork,
-    IUser,
+    IUserWithDescriptionDto,
 } from '../../../shared/interfaces';
 import {
     editUsers,
@@ -20,12 +20,13 @@ import {
 import { SelectObject, SelectTypeWork, SelectUser } from '../../../shared/ui';
 
 const getOptionsObjectUsersTypeWork = (
-    arrUsers: IUser[],
+    arrUsers: IUserWithDescriptionDto[],
     arrTypeWork: ITypeWork[],
     arrObject: IObjectCreateResponse[]
 ) => {
     const listUsersOption = arrUsers.map((item) => {
-        const { firstname, lastname, userId } = item.userDescription;
+        const { id: userId } = item;
+        const { firstname, lastname } = item.description;
 
         const label = `${lastname ?? ''} ${Array.from(firstname)[0] ?? ''}.`;
         return {
@@ -58,25 +59,34 @@ const getOptionsObjectUsersTypeWork = (
 const SelectedData = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
+    const { users } = useAppSelector(
+        (store) => store.scopeWork.selectedScopeWorkById
+    );
     const [editScopeWork] = scopeWorkApi.useEditScopeWorkMutation();
+
     const { isLoading: isLoadingOneScopeWork } =
         scopeWorkApi.useGetOneByIdScopeWorkQuery({
             id: Number(id),
         });
+
     const { data: dataObject } = objectsApi.useGetAllObjectsQuery();
+
     const { data: dataUsers, isLoading: isLoadingUsers } =
-        userApi.useGetAllUsersQuery();
+        newUserApi.useGetAllUserListQuery();
+
     const { data: dataTypeWork, isLoading: isLoadingTypeWork } =
         typeWorkApi.useGetAllTypeWorkQuery();
+
     const { isLoading } = useAppSelector((store) => store.scopeWork);
 
     const {
         object,
         typeWork,
-        users,
+        usersIds,
         listNameWork,
         id: idScopeWork,
     } = useAppSelector((store) => store.scopeWork.selectedScopeWorkById);
+
     useEffect(() => {
         dispatch(selectedTypeWorkIdInScopeWork(typeWork?.id));
     }, [typeWork]);
@@ -91,19 +101,14 @@ const SelectedData = () => {
 
     const typeWorkName = typeWork?.name ?? '';
     const objectName = object?.name ?? '';
-    const namesUser = users?.map((user) => {
-        const findedUser = dataUsers?.find((item) => item.id === user.id);
-        // const firstname = Array.from(
-        //     findedUser?.userDescription.firstname ?? ""
-        // )[0];
-        // const name = `${findedUser?.userDescription.lastname} ${firstname}`;
 
+    const namesUser = usersIds?.map((user) => {
+        const findedUser = dataUsers?.find((item) => item.id === user.userId);
         return findedUser?.id.toString() ?? '';
     });
 
     // Изменяем пользователей
     const handleChangeUsers = (arr: string[]) => {
-        // let arrUsers = users.map((item) => item.id.toString());
         if (dataUsers) {
             dispatch(
                 editUsers({
@@ -121,14 +126,15 @@ const SelectedData = () => {
         );
 
     const handleEditScopeWork = () => {
-        const userArr = users.map((item) => item.id);
+        const listUsers = users.map((user) => user.id);
+
         const arrListId = listNameWork.map((item) => item.id);
 
         if (idScopeWork && object && typeWork) {
             editScopeWork({
                 scopeWorkId: idScopeWork,
                 listNameWork: arrListId,
-                users: userArr,
+                users: listUsers,
                 objectId: object?.id,
                 typeWorkId: typeWork.id,
             });

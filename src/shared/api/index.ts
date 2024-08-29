@@ -10,7 +10,7 @@ export { orderReceiptApi } from './orderReceipt';
 export { orderReceiptNameApi } from './orderReceiptName';
 export { organizationApi } from './organization';
 export { providerApi } from './provider';
-export { roleApi } from './roles';
+export { newRoleApi, roleApi } from './roles';
 export { scopeWorkApi } from './scopeWork';
 export { storageApi } from './storage';
 export { tableAddingDataApi } from './tableAddingData';

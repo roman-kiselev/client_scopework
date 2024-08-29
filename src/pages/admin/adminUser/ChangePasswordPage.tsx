@@ -1,5 +1,6 @@
 import { Button, Col, Divider, List, Row, Space, Spin, Tag } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { authApi, newUserApi } from 'src/shared/api';
 
 const ChangePasswordPage = () => {
@@ -85,6 +86,11 @@ const ChangePasswordPage = () => {
                                         ))}
                             </Col>
                             <Divider type="vertical" />
+                            <Col>
+                                <Button size="small" type="link">
+                                    <Link to={`${item.id}`}>Перейти</Link>
+                                </Button>
+                            </Col>
                         </Space>
                     </Row>
                 </List.Item>

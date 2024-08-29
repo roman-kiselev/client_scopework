@@ -1,9 +1,10 @@
 import { CaseReducer } from '@reduxjs/toolkit';
-import { IUserWithDescription, IUsersSlice } from '../../interfaces';
+import { IUserWithDescriptionAndRolesDto, IUsersSlice } from '../../interfaces';
 import { CreateHandler, IDataError } from '../../interfaces/api';
 
 class EditRolesForUser
-    implements CreateHandler<IUsersSlice, IUserWithDescription, IDataError>
+    implements
+        CreateHandler<IUsersSlice, IUserWithDescriptionAndRolesDto, IDataError>
 {
     pending: CaseReducer<IUsersSlice> = (state) => {
         // state.isLoading = true;
@@ -12,7 +13,7 @@ class EditRolesForUser
     };
     fulfilled: CaseReducer<
         IUsersSlice,
-        { payload: IUserWithDescription; type: string }
+        { payload: IUserWithDescriptionAndRolesDto; type: string }
     > = (state, action) => {
         if (state.oneUserWithDescription) {
             state.oneUserWithDescription.roles = action.payload.roles;

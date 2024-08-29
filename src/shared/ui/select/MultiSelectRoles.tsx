@@ -1,12 +1,14 @@
 import type { SelectProps } from 'antd';
 import { Select, Spin } from 'antd';
-import { roleApi, userApi } from '../../api';
+import { newRoleApi, newUserApi } from '../../api';
 import { useAppSelector } from '../../hooks';
 
 const MultiSelectRoles = () => {
+    // const { data: allRoles, isLoading: isLoadingRoles } =
+    //     roleApi.useGetAllRolesQuery();
     const { data: allRoles, isLoading: isLoadingRoles } =
-        roleApi.useGetAllRolesQuery();
-    const [changeRole] = userApi.useAddRolesForUserMutation();
+        newRoleApi.useGetAllRolesQuery();
+    const [changeRole] = newUserApi.useChangeRolesMutation();
     const { oneUserWithDescription, isLoading: isLoadingStore } =
         useAppSelector((store) => store.users);
 
@@ -23,10 +25,19 @@ const MultiSelectRoles = () => {
     // console.log(defaultState);
 
     const handleChange = (value: string[]) => {
-        changeRole({
-            id: oneUserWithDescription?.id.toString() ?? '',
-            roles: value,
+        const roles = value.map((item) => {
+            const findedItem = allRoles?.find((role) => role.name === item);
+            if (findedItem) {
+                return findedItem.id;
+            }
+            return 0;
         });
+        if (oneUserWithDescription?.id) {
+            changeRole({
+                userId: oneUserWithDescription.id,
+                roles: roles,
+            });
+        }
     };
 
     if (isLoadingStore || isLoadingRoles) {

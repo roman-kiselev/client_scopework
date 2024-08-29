@@ -34,9 +34,9 @@ export const listNameWorkApi = mainApi.injectEndpoints({
             },
         }),
         getOneByTypeWorkId: builder.query<INameListWork[], { id: number }>({
-            query: (id) => {
+            query: ({ id }) => {
                 return {
-                    url: `/list-name-work/byTypeWork/${id.id}`,
+                    url: `/list-name-work/byTypeWork/${id}`,
                     method: 'GET',
                 };
             },

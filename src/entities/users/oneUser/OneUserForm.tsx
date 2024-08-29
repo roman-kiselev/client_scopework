@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, Row, Spin, Switch } from 'antd';
 import { useForm, useWatch } from 'antd/es/form/Form';
-import { authApi, userApi } from '../../../shared/api';
+import { authApi, newUserApi } from '../../../shared/api';
 import { useAppSelector } from '../../../shared/hooks';
 import { MultiSelectRoles } from '../../../shared/ui';
 
@@ -12,7 +12,10 @@ const OneUserForm: React.FC<OneUserFormProps> = ({ userId }) => {
     const [form] = useForm();
     const dataForm = useWatch([], form);
 
-    const { data, isLoading } = userApi.useGetOneUserQuery({
+    // const { data, isLoading } = userApi.useGetOneUserQuery({
+    //     id: userId,
+    // });
+    const { data, isLoading } = newUserApi.useGetOneUserQuery({
         id: userId,
     });
     const [editUser] = authApi.useEditMutation();
@@ -66,7 +69,7 @@ const OneUserForm: React.FC<OneUserFormProps> = ({ userId }) => {
                             <Form.Item
                                 style={{ margin: 10 }}
                                 label="Имя"
-                                initialValue={data?.userDescription.firstname}
+                                initialValue={data?.description.firstname}
                                 name="firstname"
                             >
                                 <Input />
@@ -74,7 +77,7 @@ const OneUserForm: React.FC<OneUserFormProps> = ({ userId }) => {
                             <Form.Item
                                 style={{ margin: 10 }}
                                 label="Фамилия"
-                                initialValue={data?.userDescription.lastname}
+                                initialValue={data?.description.lastname}
                                 name="lastname"
                             >
                                 <Input />
@@ -89,13 +92,13 @@ const OneUserForm: React.FC<OneUserFormProps> = ({ userId }) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item
+                            {/* <Form.Item
                                 name="password"
                                 style={{ margin: 10 }}
                                 label="Новый пароль"
                             >
                                 <Input />
-                            </Form.Item>
+                            </Form.Item> */}
                         </Col>
                     </Row>
                     <Row style={{ margin: 10 }}>

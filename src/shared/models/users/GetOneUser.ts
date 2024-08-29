@@ -1,9 +1,10 @@
 import { CaseReducer } from '@reduxjs/toolkit';
-import { IUserWithDescription, IUsersSlice } from '../../interfaces';
+import { IUserWithDescriptionAndRolesDto, IUsersSlice } from '../../interfaces';
 import { CreateHandler, IDataError } from '../../interfaces/api';
 
 class GetOneUser
-    implements CreateHandler<IUsersSlice, IUserWithDescription, IDataError>
+    implements
+        CreateHandler<IUsersSlice, IUserWithDescriptionAndRolesDto, IDataError>
 {
     pending: CaseReducer<IUsersSlice> = (state) => {
         state.isLoading = true;
@@ -13,7 +14,7 @@ class GetOneUser
 
     fulfilled: CaseReducer<
         IUsersSlice,
-        { payload: IUserWithDescription; type: string }
+        { payload: IUserWithDescriptionAndRolesDto; type: string }
     > = (state, action) => {
         state.oneUserWithDescription = action.payload;
         state.isLoading = false;

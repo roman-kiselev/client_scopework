@@ -22,6 +22,7 @@ const ShortListNames = () => {
     const { selectedTypeWorkId, isLoading } = useAppSelector(
         (store) => store.scopeWork
     );
+
     const { data } = listNameWorkApi.useGetOneByTypeWorkIdQuery({
         id: Number(selectedTypeWorkId),
     });

@@ -1,9 +1,9 @@
-// import { QuestionCircleFilled } from "@ant-design/icons";
-// import { Button, Drawer, Space, Timeline } from "antd";
-// import { tableAddingDataApi } from "src/shared/api";
-// import { RoleString } from "src/shared/config";
-// import { useAppSelector } from "src/shared/hooks";
-// import { checkRole } from "src/shared/utils";
+// import { QuestionCircleFilled } from '@ant-design/icons';
+// import { Button, Drawer, Space, Timeline } from 'antd';
+// import { tableAddingDataApi } from 'src/shared/api';
+// import { RoleString } from 'src/shared/config';
+// import { useAppSelector } from 'src/shared/hooks';
+// import { checkRole } from 'src/shared/utils';
 
 // const DrawerTimelineNameWorkQuick = () => {
 //     const { id } = useAppSelector((store) => store.auth);
@@ -16,16 +16,16 @@
 //     const [handleConfirm, { data: dataConfirm }] =
 //         tableAddingDataApi.useConfirmMutation();
 
-//         const handleClickRemove = (id: number) => {
-//             handleRemove({ id: id });
-//             handleClickQuery();
-//             refetch();
-//         };
-//         const handleClickRecovery = (id: number) => {
-//             handleRecovery({ id: id });
-//             handleClickQuery();
-//             refetch();
-//         };
+//     const handleClickRemove = (id: number) => {
+//         handleRemove({ id: id });
+//         // handleClickQuery();
+//         // refetch();
+//     };
+//     const handleClickRecovery = (id: number) => {
+//         handleRecovery({ id: id });
+//         // handleClickQuery();
+//         // refetch();
+//     };
 
 //     return (
 //         <>
@@ -37,22 +37,22 @@
 //                                 <p
 //                                     style={
 //                                         item.deletedAt === null
-//                                             ? { color: "black" }
-//                                             : { color: "grey" }
+//                                             ? { color: 'black' }
+//                                             : { color: 'grey' }
 //                                     }
 //                                 >
-//                                     {item.id}. {item.firstname} {item.lastname}{" "}
-//                                     - {item.quntity}{" "}
+//                                     {item.id}. {item.firstname} {item.lastname}{' '}
+//                                     - {item.quntity}{' '}
 //                                     {getUnit(dataUnit, unitId) || `ед.`}- (
 //                                     {getDate(item.createdAt)})
 //                                     {item.delCandidate !== null && (
 //                                         <QuestionCircleFilled
 //                                             style={{
-//                                                 color: "red",
+//                                                 color: 'red',
 //                                             }}
 //                                         />
 //                                     )}
-//                                 </p>{" "}
+//                                 </p>{' '}
 //                                 {checkRole(roles, RoleString.MASTER) &&
 //                                     item.delCandidate === null &&
 //                                     item.deletedAt === null && (
@@ -110,7 +110,7 @@
 //                                             <Button
 //                                                 size="small"
 //                                                 style={{
-//                                                     backgroundColor: "yellow",
+//                                                     backgroundColor: 'yellow',
 //                                                 }}
 //                                                 onClick={() =>
 //                                                     handleClickRecovery(item.id)

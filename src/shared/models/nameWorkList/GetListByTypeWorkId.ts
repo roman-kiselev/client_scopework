@@ -17,14 +17,15 @@ class GetListByTypeWorkId
         state.listByTypeId = action.payload;
         state.isLoading = false;
     };
-    rejected: CaseReducer<INameWorkListSlice> = (state, action) => {
+    rejected: CaseReducer<INameWorkListSlice> = (state) => {
         state.isLoading = false;
         state.isError = true;
-        const { data, status } = action.payload as IDataError;
-        state.dataError = {
-            data: data,
-            status: Number(status),
-        };
+        // TODO - добавить обработку ошибок
+        // const { data, status } = action.payload as IDataError;
+        // state.dataError = {
+        //     data: data,
+        //     status: Number(status),
+        // };
     };
 }
 

@@ -5,7 +5,7 @@ import {
     IObjectCreateResponse,
     IScopeWorkSlice,
     ITypeWork,
-    IUser,
+    IUserWithDescriptionDto,
 } from '../../interfaces';
 import GetOneByTypeWorkId from './GetOneByTypeWorkId';
 import GetOneScopeWorkById from './GetOneScopeWorkById';
@@ -30,6 +30,7 @@ const initialState: IScopeWorkSlice = {
         listNameWork: [],
         namesWorkGeneral: [],
         users: [],
+        usersIds: [],
         addingCount: null,
         idScopeWork: [],
         isDifference: false,
@@ -83,12 +84,15 @@ export const scopeWorkSlice = createSlice({
         },
         addUsers: (
             state,
-            action: PayloadAction<{ listUser: IUser[]; listSelected: string[] }>
+            action: PayloadAction<{
+                listUser: IUserWithDescriptionDto[];
+                listSelected: string[];
+            }>
         ) => {
             state.scopeWorkData.users = [];
             const { listSelected, listUser } = action.payload;
 
-            const arr: IUser[] = [];
+            const arr: IUserWithDescriptionDto[] = [];
             for (let i = 0; i < listSelected.length; i++) {
                 const findedUser = listUser.find(
                     (item) => item.id === Number(listSelected[i])
@@ -166,11 +170,14 @@ export const scopeWorkSlice = createSlice({
         },
         editUsers: (
             state,
-            action: PayloadAction<{ listUser: IUser[]; listSelected: string[] }>
+            action: PayloadAction<{
+                listUser: IUserWithDescriptionDto[];
+                listSelected: string[];
+            }>
         ) => {
             const { listSelected, listUser } = action.payload;
 
-            const arr: IUser[] = [];
+            const arr: IUserWithDescriptionDto[] = [];
             for (let i = 0; i < listSelected.length; i++) {
                 const findedUser = listUser.find(
                     (item) => item.id === Number(listSelected[i])
@@ -180,6 +187,7 @@ export const scopeWorkSlice = createSlice({
                 }
             }
             state.scopeWorkData.users = [];
+
             if (state.selectedScopeWorkById !== null) {
                 state.selectedScopeWorkById.users = arr;
             }

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userApi } from '../../api';
+import { newUserApi } from '../../api';
 import { IUsersSlice } from '../../interfaces';
 import EditRolesForUser from './EditRolesForUser';
 import GetAllUsers from './GetAllUsers';
@@ -19,28 +19,28 @@ export const usersSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
         builder.addMatcher(
-            userApi.endpoints.getAllUsers.matchPending,
+            newUserApi.endpoints.getAllUserList.matchPending,
             GetAllUsers.pending
         );
         builder.addMatcher(
-            userApi.endpoints.getAllUsers.matchFulfilled,
+            newUserApi.endpoints.getAllUserList.matchFulfilled,
             GetAllUsers.fulfilled
         );
         builder.addMatcher(
-            userApi.endpoints.getAllUsers.matchRejected,
+            newUserApi.endpoints.getAllUserList.matchRejected,
             GetAllUsers.rejected
         );
         // Получим пользователя с описанием
         builder.addMatcher(
-            userApi.endpoints.getOneUser.matchPending,
+            newUserApi.endpoints.getOneUser.matchPending,
             GetOneUser.pending
         );
         builder.addMatcher(
-            userApi.endpoints.getOneUser.matchFulfilled,
+            newUserApi.endpoints.getOneUser.matchFulfilled,
             GetOneUser.fulfilled
         );
         builder.addMatcher(
-            userApi.endpoints.getOneUser.matchRejected,
+            newUserApi.endpoints.getOneUser.matchRejected,
             GetOneUser.rejected
         );
         // Редактируем пользователя
@@ -58,15 +58,15 @@ export const usersSlice = createSlice({
         // );
 
         builder.addMatcher(
-            userApi.endpoints.addRolesForUser.matchPending,
+            newUserApi.endpoints.changeRoles.matchPending,
             EditRolesForUser.pending
         );
         builder.addMatcher(
-            userApi.endpoints.addRolesForUser.matchFulfilled,
+            newUserApi.endpoints.changeRoles.matchFulfilled,
             EditRolesForUser.fulfilled
         );
         builder.addMatcher(
-            userApi.endpoints.addRolesForUser.matchRejected,
+            newUserApi.endpoints.changeRoles.matchRejected,
             EditRolesForUser.rejected
         );
     },

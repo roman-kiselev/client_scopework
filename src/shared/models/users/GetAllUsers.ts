@@ -1,17 +1,20 @@
 import { CaseReducer } from '@reduxjs/toolkit';
-import { IUser, IUsersSlice } from '../../interfaces';
+import { IUsersSlice, IUserWithDescriptionDto } from '../../interfaces';
 import { CreateHandler, IDataError } from '../../interfaces/api';
 
-class GetAllUsers implements CreateHandler<IUsersSlice, IUser[], IDataError> {
+class GetAllUsers
+    implements
+        CreateHandler<IUsersSlice, IUserWithDescriptionDto[], IDataError>
+{
     pending: CaseReducer<IUsersSlice> = (state) => {
         state.isLoading = true;
         state.isError = false;
         state.dataError = null;
     };
-    fulfilled: CaseReducer<IUsersSlice, { payload: IUser[]; type: string }> = (
-        state,
-        action
-    ) => {
+    fulfilled: CaseReducer<
+        IUsersSlice,
+        { payload: IUserWithDescriptionDto[]; type: string }
+    > = (state, action) => {
         state.listUsers = action.payload;
         state.isLoading = false;
     };

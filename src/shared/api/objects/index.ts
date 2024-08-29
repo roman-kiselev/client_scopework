@@ -11,33 +11,33 @@ export const objectsApi = mainApi.injectEndpoints({
     endpoints: (builder) => ({
         create: builder.mutation<IObjectCreateResponse, IObjectCreateAttr>({
             query: (objectData) => ({
-                url: 'objects',
+                url: '/objects',
                 method: 'POST',
                 body: objectData,
             }),
         }),
         getAllObjects: builder.query<IObjectCreateResponse[], void>({
             query: () => ({
-                url: 'objects',
+                url: '/objects',
                 method: 'GET',
             }),
         }),
         getAllShortData: builder.query<IOneObjectDataShort[], void>({
             query: () => ({
-                url: 'objects/shortData',
+                url: '/objects/shortData',
                 method: 'GET',
             }),
         }),
 
         getFullDataForOne: builder.query<IObjectFullData, number>({
             query: (id) => ({
-                url: `objects/fullData/${id}`,
+                url: `/objects/fullData/${id}`,
                 method: 'GET',
             }),
         }),
         getAllObjectShort: builder.query<IObjectShort[], void>({
             query: () => ({
-                url: `objects/shortAllObjects`,
+                url: `/objects/shortAllObjects`,
                 method: 'GET',
             }),
         }),

@@ -19,7 +19,7 @@ import {
     IFinishUserAdding,
     IOneScopeWorkWithData,
     ITypeWork,
-    IUser,
+    IUserWithDescriptionDto,
 } from '../../../../shared/interfaces';
 
 interface OneFullScopeWorkProps {
@@ -33,13 +33,13 @@ const getTypeWork = (typeWorkId: number, data: ITypeWork[]) => {
     }
 };
 
-const getUserName = (userId: number, data: IUser[]) => {
+const getUserName = (userId: number, data: IUserWithDescriptionDto[]) => {
     const findedUser = data.find((item) => item.id === userId);
     if (findedUser) {
         return (
-            findedUser.userDescription.firstname +
+            findedUser.description.firstname +
             ' ' +
-            findedUser.userDescription.lastname
+            findedUser.description.lastname
         );
     }
 };
