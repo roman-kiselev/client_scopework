@@ -42,7 +42,7 @@ export const scopeWorkApi = mainApi.injectEndpoints({
             { id: number }
         >({
             query: (id) => ({
-                url: `scope-work/getAllByUserId/${id.id}`,
+                url: `/scope-work/getAllByUserId/${id.id}`,
                 method: 'GET',
             }),
         }),
