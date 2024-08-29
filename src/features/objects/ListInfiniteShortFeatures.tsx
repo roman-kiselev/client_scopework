@@ -1,13 +1,11 @@
-import { useEffect } from 'react';
+import { Spin } from 'antd';
 import { ListInfiniteShort, OneObjectShort } from '../../entities';
 import { objectsApi } from '../../shared/api';
 import { useAppSelector } from '../../shared/hooks';
 
 const ListInfiniteShortFeatures = () => {
-    //const {data} = objectsApi.useGetAllObjectsQuery()
-    useEffect(() => {
-        objectsApi.endpoints.getAllObjects.initiate();
-    }, []);
+    const { isLoading } = objectsApi.useGetAllObjectsQuery();
+    if (isLoading) <Spin />;
     const { listObject } = useAppSelector((state) => state.objects);
     return (
         <ListInfiniteShort data={listObject}>
