@@ -78,6 +78,7 @@ const ShortListNamesWithoutTypes = () => {
     };
 
     const newDataNameWork: IDataSourse[] = [];
+    console.log(dataNameWork);
     if (dataNameWork) {
         dataNameWork.forEach((name) => {
             if (name) {

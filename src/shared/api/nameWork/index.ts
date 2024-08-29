@@ -36,7 +36,7 @@ export const nameWorkApi = mainApi.injectEndpoints({
             IQueryGetAllNameWorkByTypeWorkId
         >({
             query: (options) => ({
-                url: 'name-work/byTypeWork',
+                url: '/name-work/byTypeWork',
                 method: 'GET',
                 params: options,
             }),

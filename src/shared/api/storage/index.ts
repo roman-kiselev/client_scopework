@@ -26,14 +26,14 @@ export const storageApi = mainManagerApi.injectEndpoints({
             { nameStorage: string }
         >({
             query: ({ nameStorage }) => ({
-                url: `storage/checkName/?name=${nameStorage}`,
+                url: `/storage/checkName/?name=${nameStorage}`,
                 method: 'GET',
             }),
         }),
 
         getOneById: builder.query<IStorageAndUsersAndObjects, { id: number }>({
             query: ({ id }) => ({
-                url: `storage/${id}`,
+                url: `/storage/${id}`,
                 method: 'GET',
             }),
         }),
