@@ -23,9 +23,14 @@ const ShortListNames = () => {
         (store) => store.scopeWork
     );
 
-    const { data } = listNameWorkApi.useGetOneByTypeWorkIdQuery({
-        id: Number(selectedTypeWorkId),
-    });
+    const { data } = listNameWorkApi.useGetOneByTypeWorkIdQuery(
+        {
+            id: Number(selectedTypeWorkId),
+        },
+        {
+            skip: !selectedTypeWorkId,
+        }
+    );
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 

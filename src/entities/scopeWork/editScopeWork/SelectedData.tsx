@@ -64,7 +64,7 @@ const SelectedData = () => {
     );
     const [editScopeWork] = scopeWorkApi.useEditScopeWorkMutation();
 
-    const { isLoading: isLoadingOneScopeWork } =
+    const { isLoading: isLoadingOneScopeWork, data: dataScopeWork } =
         scopeWorkApi.useGetOneByIdScopeWorkQuery({
             id: Number(id),
         });
