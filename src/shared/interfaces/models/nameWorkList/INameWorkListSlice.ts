@@ -18,6 +18,16 @@ export interface IOneItemForListNameWork {
     list: ItemForListNameWork[] | [];
 }
 
+export interface IOneItemForListNameWorkEdit {
+    id: number;
+    idNumber?: null | number;
+    dateCreate?: null | string;
+    name: string;
+    description: string;
+    typeWorkId: number | null;
+    list: ItemForListNameWork[] | [];
+}
+
 export interface INameWorkListSlice {
     oneItem: IOneItemForListNameWork;
     list: ItemForListNameWork[] | [];

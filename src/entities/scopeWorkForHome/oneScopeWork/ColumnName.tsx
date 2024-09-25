@@ -57,7 +57,7 @@ const ColumnName: React.FC<IColumnNameProps> = ({
                 scopeWorkId: Number(scopeWorkId),
             })
         ).unwrap();
-        console.log(data);
+
         setDataTimeline(data);
     };
 

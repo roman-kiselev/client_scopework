@@ -27,7 +27,7 @@ const LeftMenu = () => {
         getItem(
             <Link to="/">Домашняя</Link>,
             'home',
-            [RoleString.USER, RoleString.ADMIN],
+            [RoleString.USER, RoleString.ADMIN, RoleString.MASTER],
             rolesState,
             <HomeOutlined />
         ),

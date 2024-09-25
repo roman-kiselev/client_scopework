@@ -15,7 +15,6 @@ class AcceptRow
         IOrderSlice,
         { payload: IOrderReceiptGetResponse; type: string }
     > = (state, action) => {
-        console.log(action.payload);
         state.orderReceipt.isError = false;
         state.orderReceipt.isLoading = false;
         state.orderReceipt.isSuccess = true;

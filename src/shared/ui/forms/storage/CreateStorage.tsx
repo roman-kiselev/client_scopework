@@ -55,7 +55,7 @@ const CreateStorage: React.FC<ICreateStorage> = ({
     //       content: 'This is a success message',
     //     });
     //   };
-    console.log(isErrorCheck);
+
     return (
         <>
             {/* {contextHolder} */}

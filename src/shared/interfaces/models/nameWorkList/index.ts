@@ -3,6 +3,7 @@ import { INameWorkFromExcel } from './INameWorkFromExcel';
 import {
     INameWorkListSlice,
     IOneItemForListNameWork,
+    IOneItemForListNameWorkEdit,
     ItemForListNameWork,
 } from './INameWorkListSlice';
 import { INameWorkWithQuantity } from './INameWorkWithQuantity';
@@ -13,5 +14,6 @@ export type {
     INameWorkListSlice,
     INameWorkWithQuantity,
     IOneItemForListNameWork,
+    IOneItemForListNameWorkEdit,
     ItemForListNameWork,
 };

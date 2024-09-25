@@ -1,6 +1,7 @@
 import { Button, Col, Form, Row, Select, Space, Spin, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { IOneItemForListNameWorkEdit } from 'src/shared/interfaces/models';
 import * as XLSX from 'xlsx';
 import {
     listNameWorkApi,
@@ -54,6 +55,8 @@ const sumQuantity = (arr: any[]) => {
 // Начало основного компонента
 const ListForAddNameWork = () => {
     const dispatch = useAppDispatch();
+    const { id } = useParams();
+
     //const [dataExcel, setDataExcel] = useState<INameWorkFromExcel[] | []>([]);
     const { data: dataUnits } = unitsApi.useGetAllUnitsQuery();
     const { data: dataTypeWork } = typeWorkApi.useGetAllShortQuery();
@@ -132,7 +135,8 @@ const ListForAddNameWork = () => {
         typeWorkId,
         list,
     };
-    const dataForEdit: IOneItemForListNameWork = {
+    const dataForEdit: IOneItemForListNameWorkEdit = {
+        id: +id!,
         idNumber,
         name,
         description,
@@ -236,9 +240,11 @@ const ListForAddNameWork = () => {
     // Функция сохранения при редактировании
 
     const handleEdit = async () => {
-        editList(dataForEdit);
-        openMessageEdit(isErrorMain);
-        setValueOption(0);
+        if (id) {
+            editList(dataForEdit);
+            openMessageEdit(isErrorMain);
+            setValueOption(0);
+        }
     };
 
     // Удаление

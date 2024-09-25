@@ -44,9 +44,9 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
 
     const { listUsers } = useAppSelector((store) => store.users);
     const handleClickRemove = (id: number) => {
-        handleRemove({ id: id });
+        handleRemove({ id: id }).then(() => refetch());
         handleClickQuery();
-        refetch();
+        // refetch();
     };
     const handleClickRecovery = (id: number) => {
         handleRecovery({ id: id });

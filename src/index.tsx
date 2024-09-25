@@ -7,7 +7,7 @@ import App from './app';
 import store from './app/store';
 import './index.css';
 import AuthMiddleware from './shared/middlewares/AuthMiddleware';
-//  Hello
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

@@ -1,3 +1,4 @@
+import { IOneItemForListNameWorkEdit } from 'src/shared/interfaces/models';
 import { INameListWork, IOneItemForListNameWork } from '../../interfaces';
 import { mainApi } from '../main';
 ///list-name-work/byTypeWork/2
@@ -18,10 +19,10 @@ export const listNameWorkApi = mainApi.injectEndpoints({
                 };
             },
         }),
-        editList: builder.mutation<INameListWork, IOneItemForListNameWork>({
-            query: (data) => ({
-                url: '/list-name-work/edit',
-                method: 'POST',
+        editList: builder.mutation<INameListWork, IOneItemForListNameWorkEdit>({
+            query: ({ id, ...data }) => ({
+                url: `/list-name-work/edit/${id}`,
+                method: 'PATCH',
                 body: data,
             }),
         }),

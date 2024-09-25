@@ -6,4 +6,5 @@ export enum RoleString {
     MANAGER = 'manager',
     DRIVER = 'driver',
     WAREHOUSEMAN = 'warehouseman',
+    WORKER = 'worker',
 }

@@ -17,7 +17,7 @@ class GetOneScopeWorkById
         { payload: IScopeWorkWithDataDto; type: string }
     > = (state, action) => {
         state.isLoading = true;
-        console.log(action.payload);
+
         //state.selectedScopeWorkById = action.payload;
         state.selectedScopeWorkById.id = action.payload.id;
         state.selectedScopeWorkById.createdAt = action.payload.createdAt;
