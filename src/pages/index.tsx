@@ -6,6 +6,7 @@ import { RoleString } from '../shared/config';
 import WelcomePage from './home/WelcomePage';
 import NoAccess from './noAccess';
 import ScopeWorkAddData from './scopeWork/ScopeWorkAddData';
+import ScopeWorkAddDataWithList from './scopeWork/ScopeWorkAddDataWithList';
 
 const LoginPage = lazy(() => import('./auth/LoginPage'));
 const LoginWithoutPasswordPage = lazy(
@@ -38,6 +39,7 @@ const Routing = () => {
                             RoleString.MANAGER,
                             RoleString.DRIVER,
                             RoleString.WAREHOUSEMAN,
+                            RoleString.WORKER,
                         ]}
                     >
                         <LayoutPage />
@@ -49,9 +51,27 @@ const Routing = () => {
                     path="/:id"
                     element={
                         <SuspenseLoadCheckR
-                            roles={[RoleString.ADMIN, RoleString.MASTER]}
+                            roles={[
+                                RoleString.ADMIN,
+                                RoleString.MASTER,
+                                RoleString.WORKER,
+                            ]}
                         >
                             <ScopeWorkAddData />
+                        </SuspenseLoadCheckR>
+                    }
+                />
+                <Route
+                    path="/:id/list"
+                    element={
+                        <SuspenseLoadCheckR
+                            roles={[
+                                RoleString.ADMIN,
+                                RoleString.MASTER,
+                                RoleString.WORKER,
+                            ]}
+                        >
+                            <ScopeWorkAddDataWithList />
                         </SuspenseLoadCheckR>
                     }
                 />

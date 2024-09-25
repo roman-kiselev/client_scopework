@@ -59,8 +59,6 @@ const FormTableNameCheck = () => {
                 dto: { newRowQuantity: +dataQuantity.quantity, ...dataItem },
             });
         }
-
-        console.log(dataItem, dataQuantity);
     };
     const handleCloseModal = () => {
         setStateModal(false);

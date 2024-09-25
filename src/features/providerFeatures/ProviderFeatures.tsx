@@ -28,7 +28,6 @@ const ProviderFeatures = () => {
         setStateModal(false);
     };
     const handleFinish = () => {
-        console.log(dataFormTk);
         createTransportCompany(dataFormTk);
     };
     if (isSuccessCreateTk) {

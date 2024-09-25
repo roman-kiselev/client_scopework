@@ -7,6 +7,7 @@ import {
     IInputPasswordFormItemProps,
 } from '../../shared/interfaces';
 import { InputFormItem, InputPasswordFormItem } from '../../shared/ui';
+const { Paragraph } = Typography;
 
 const { Text } = Typography;
 
@@ -94,6 +95,16 @@ const FormLogin: React.FC<IFormLoginProps> = ({ form, onFinish }) => {
                         <Button type="primary" htmlType="submit">
                             Вход
                         </Button>
+                    </Row>
+                    <Row>
+                        <Paragraph
+                            style={{ fontSize: '12px', marginTop: '40px' }}
+                        >
+                            Задать вопросы и получить помощь можно по почте{' '}
+                            <a href="mailto:stroi.energoservis@yandex.ru">
+                                stroi.energoservis@yandex.ru
+                            </a>
+                        </Paragraph>
                     </Row>
                 </Form>
             </Card>

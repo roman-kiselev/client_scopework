@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { tableAddingDataApi, unitsApi } from 'src/shared/api';
 import { RoleString } from 'src/shared/config';
 import { useAppDispatch, useAppSelector } from 'src/shared/hooks';
-import { IDataGetHistoryForNameWorkId } from 'src/shared/interfaces/api';
 import { checkRole } from 'src/shared/utils';
 import DrawerTimelineNameWork from '../oneScopeWork/DrawerTimelineNameWork';
 
@@ -36,9 +35,15 @@ const ColumnNameQuick: React.FC<IColumnNameQuickProps> = ({
     const dispatch = useAppDispatch();
     const { roles } = useAppSelector((store) => store.auth);
     const { data: dataUnit } = unitsApi.useGetAllUnitsQuery();
-    const [dataTimeline, setDataTimeline] = useState<
-        IDataGetHistoryForNameWorkId[] | []
-    >([]);
+    const { data: dataTimeline, refetch: refetchTimeline } =
+        tableAddingDataApi.useHistoryForNameQuery({
+            nameListId,
+            nameWorkId,
+            scopeWorkId: Number(scopeWorkId),
+        });
+    // const [dataTimeline, setDataTimeline] = useState<
+    //     IDataGetHistoryForNameWorkId[] | []
+    // >([]);
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);
@@ -48,15 +53,19 @@ const ColumnNameQuick: React.FC<IColumnNameQuickProps> = ({
     };
 
     const handleClickQuery = async () => {
-        const data = await dispatch(
-            tableAddingDataApi.endpoints.historyForName.initiate({
-                nameListId,
-                nameWorkId,
-                scopeWorkId: Number(scopeWorkId),
-            })
-        ).unwrap();
+        // await dispatch(
+        //     tableAddingDataApi.endpoints.historyForName.initiate({
+        //         nameListId,
+        //         nameWorkId,
+        //         scopeWorkId: Number(scopeWorkId),
+        //     })
+        // )
+        //     .unwrap()
+        //     .then((data) => {
+        //         setDataTimeline(data);
+        //     });
 
-        setDataTimeline(data);
+        refetchTimeline();
     };
 
     const handleClick = async () => {
@@ -67,7 +76,7 @@ const ColumnNameQuick: React.FC<IColumnNameQuickProps> = ({
     return (
         <>
             <DrawerTimelineNameWork
-                dataTimeline={dataTimeline}
+                dataTimeline={dataTimeline || []}
                 dataUnit={dataUnit || []}
                 name={name}
                 onClose={onClose}

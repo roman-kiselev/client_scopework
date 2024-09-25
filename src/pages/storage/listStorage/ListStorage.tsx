@@ -17,7 +17,6 @@ interface IStorageAndUsersAndObjectsForTable
 
 const ListStorage = () => {
     const { data: listStorage, isLoading } = storageApi.useGetAllStorageQuery();
-    console.log(listStorage);
 
     const columns: TableProps<IStorageAndUsersAndObjectsForTable>['columns'] = [
         {

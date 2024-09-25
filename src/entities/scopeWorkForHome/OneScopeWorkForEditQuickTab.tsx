@@ -1,38 +1,25 @@
-import { Button, Col, Input, Row, Spin, Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
-import { newUserApi, scopeWorkApi } from 'src/shared/api';
-import { useAppSelector } from 'src/shared/hooks';
-import { IValueForListData } from 'src/shared/interfaces';
-import { IResQuickOneScopeWorkById } from 'src/shared/interfaces/api';
+import { Col, Input } from 'antd';
+import Table, { ColumnsType } from 'antd/es/table';
+import { useEffect, useState } from 'react';
+import {
+    IResQuickOneScopeWorkById,
+    IValueForListData,
+} from 'src/shared/interfaces';
 import ColumnNameQuick from './oneScopeWorkQuick/ColumnNameQuick';
 import ColumnQuntityQuick from './oneScopeWorkQuick/ColumnQuntityQuick';
 
-const OneScopeWorkForEditQuick = () => {
-    const { id: idScopeWork } = useParams();
-    const { banned } = useAppSelector((store) => store.auth);
+interface IOneScopeWorkForEditQuickTabProps {
+    idScopeWork: number;
+    list: IResQuickOneScopeWorkById[];
+    refetch?: () => void;
+}
 
-    const { isLoading: isLoadingUser } = newUserApi.useGetAllUserListQuery();
-
-    const {
-        data: scopeWorkDataQuick,
-        isLoading,
-        refetch,
-    } = scopeWorkApi.useQuickOneScopeWorkByIdQuery(
-        {
-            id:
-                idScopeWork !== undefined && !banned
-                    ? idScopeWork.toString()
-                    : '0',
-        },
-        { skip: !idScopeWork, refetchOnMountOrArgChange: true }
-    );
-
+const OneScopeWorkForEditQuickTab: React.FC<
+    IOneScopeWorkForEditQuickTabProps
+> = ({ list, idScopeWork, refetch }) => {
     const [searchedText, setSearchedText] = useState('');
 
-    const dataValue = scopeWorkDataQuick?.map((item) => {
+    const dataValue = list?.map((item) => {
         return {
             idNameWork: item.nameWorkId,
             listNameWorkId: item.listNameWorkId,
@@ -44,39 +31,25 @@ const OneScopeWorkForEditQuick = () => {
         dataValue || []
     );
 
-    const [dataForTable, setDataForTable] = useState<any[]>([]);
-
-    // const dataForTable = scopeWorkDataQuick?.map((item, index) => {
-    //     return {
-    //         ...item,
-    //         key: (index + 1).toString(),
-    //         index: (index + 1).toString(),
-    //     };
-    // });
-
     useEffect(() => {
-        const dataValue = scopeWorkDataQuick?.map((item) => {
+        const dataValue = list.map((item) => {
             return {
                 idNameWork: item.nameWorkId,
                 value: '',
                 listNameWorkId: item.listNameWorkId,
             } as IValueForListData;
         });
-        const arr = scopeWorkDataQuick?.map((item, index) => {
-            return {
-                ...item,
-                key: (index + 1).toString(),
-                index: (index + 1).toString(),
-            };
-        });
 
-        setDataForTable(arr ?? []);
         setDataList(dataValue || []);
-    }, [idScopeWork, scopeWorkDataQuick]);
+    }, [list]);
 
-    if (isLoading || isLoadingUser) {
-        return <Spin />;
-    }
+    const dataForTable = list.map((item, index) => {
+        return {
+            ...item,
+            key: (index + 1).toString(),
+            index: (index + 1).toString(),
+        };
+    });
 
     const columns: ColumnsType<IResQuickOneScopeWorkById> = [
         {
@@ -108,7 +81,7 @@ const OneScopeWorkForEditQuick = () => {
                 }
             ) => (
                 <ColumnNameQuick
-                    isLoading={isLoading}
+                    isLoading={false}
                     name={name}
                     nameListId={id}
                     nameWorkId={nameWorkId}
@@ -123,6 +96,19 @@ const OneScopeWorkForEditQuick = () => {
                     unitId={unitId}
                     unitName={unitName}
                 />
+
+                // <ColumnName
+                //     count={quntityMain}
+                //     name={name}
+                //     percent={percent}
+                //     quntity={quntity}
+                //     unitId={unitId}
+                //     isLoading={isLoading}
+                //     nameListId={nameListId}
+                //     nameWorkId={nameWorkId}
+                //     scopeWorkId={scopeWorkId}
+                //     refetch={refetch}
+                // />
             ),
         },
         {
@@ -139,17 +125,21 @@ const OneScopeWorkForEditQuick = () => {
                     refetch={refetch}
                     setDataList={setDataList}
                 />
+                // <ColumnQuntity
+                //     dataList={dataList}
+                //     listNameWorkId={listNameWorkId}
+                //     nameListId={nameListId}
+                //     nameWorkId={nameWorkId}
+                //     scopeWorkId={scopeWorkId}
+                //     setDataList={setDataList}
+                //     refetch={refetch}
+                // />
             ),
         },
     ];
 
     return (
         <Col>
-            <Row>
-                <Link to={`/${idScopeWork}/list`}>
-                    <Button>Изменить вид</Button>
-                </Link>
-            </Row>
             <Col style={{ maxWidth: '300px' }}>
                 <Input.Search
                     placeholder="Поиск ..."
@@ -168,4 +158,4 @@ const OneScopeWorkForEditQuick = () => {
     );
 };
 
-export default OneScopeWorkForEditQuick;
+export default OneScopeWorkForEditQuickTab;

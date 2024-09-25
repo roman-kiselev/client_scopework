@@ -40,7 +40,7 @@ const WelcomePage = () => {
                     backgroundColor: '#fff',
                 }}
             >
-                <Title level={1}>Добро пожаловать в CRM систему!</Title>
+                <Title level={1}>Добро пожаловать в Kron CRM</Title>
                 <Paragraph style={{ fontSize: '18px', marginBottom: '40px' }}>
                     Эффективное управление проектами для строительных
                     организаций.
@@ -60,6 +60,12 @@ const WelcomePage = () => {
                 >
                     Зарегистрировать организацию
                 </Button>
+                <Paragraph style={{ fontSize: '12px', marginTop: '40px' }}>
+                    Задать вопросы и получить помощь можно по почте{' '}
+                    <a href="mailto:stroi.energoservis@yandex.ru">
+                        stroi.energoservis@yandex.ru
+                    </a>
+                </Paragraph>
             </Content>
         </Layout>
     );

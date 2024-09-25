@@ -2,6 +2,7 @@ import {
     IResQuickOneScopeWorkById,
     IScopeworkShort,
 } from 'src/shared/interfaces/api';
+import { IResQuickWithGroup } from 'src/shared/interfaces/api/scopework/IResQuickWithGroup';
 import {
     ICreateScopeWork,
     IEditScopeWork,
@@ -80,6 +81,13 @@ export const scopeWorkApi = mainApi.injectEndpoints({
         >({
             query: ({ id }) => ({
                 url: `/scope-work/quickWithoutGroup/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        quickWithGroup: builder.query<IResQuickWithGroup[], { id: string }>({
+            query: ({ id }) => ({
+                url: `/scope-work/quickWithGroup/${id}`,
                 method: 'GET',
             }),
         }),

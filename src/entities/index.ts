@@ -1,41 +1,17 @@
-export { CheckAuth, CheckRole, SuspenseLoad } from './check';
-export { FormLogin, FormLoginWithoutPassword } from './formLogin';
-export { FormRegister } from './formRegister';
-export { SimpleShortItemForList, SimpleShortList } from './list';
-export { ListNameWorkTable } from './listNameWorks';
-export {
-    CreateNameWorkExcel,
-    FormCreateNameWork,
-    ListForAddNameWork,
-    MainNameWork,
-    ShortListNames,
-    ShortListNamesWithoutTypes,
-} from './nameWork';
-export { MainCard } from './objectCardMain';
-export {
-    FormCreateObject,
-    ListInfiniteShort,
-    ListShortObject,
-    OneObjectFull,
-    OneObjectShort,
-    OneShortObject,
-} from './objects';
-export { OrderBasedOn } from './orderBasedOn';
-export { CreateProvider } from './providers';
-export { CreateScopeWork, EditScopeWork, ListScopeWork } from './scopeWork';
-export {
-    OneScopeWorkForEdit,
-    OneScopeWorkForEditQuick,
-} from './scopeWorkForHome';
-export { SimpleOrder } from './simpleOrder';
-export {
-    AddNameInStorage,
-    CreateOrderReceipt,
-    ListOrderReceipt,
-    OrderReceipt,
-    StorageDescriptionShort,
-    UpdateOrderReceipt,
-} from './storage';
-export { CreateTransportCompany } from './transportCompany';
-export { FormUnit } from './units';
-export { ListUsers, OneUserForm } from './users';
+export * from './check';
+export * from './formLogin';
+export * from './formRegister';
+export * from './list';
+export * from './listNameWorks';
+export * from './nameWork';
+export * from './objectCardMain';
+export * from './objects';
+export * from './orderBasedOn';
+export * from './providers';
+export * from './scopeWork';
+export * from './scopeWorkForHome';
+export * from './simpleOrder';
+export * from './storage';
+export * from './transportCompany';
+export * from './units';
+export * from './users';
