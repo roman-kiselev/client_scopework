@@ -134,7 +134,10 @@ const SelectedData = () => {
             editScopeWork({
                 scopeWorkId: idScopeWork,
                 listNameWork: arrListId,
-                users: listUsers,
+                users:
+                    listUsers.length === 0
+                        ? usersIds.map((item) => item.userId)
+                        : listUsers,
                 objectId: object?.id,
                 typeWorkId: typeWork.id,
             });

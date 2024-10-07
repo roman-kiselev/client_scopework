@@ -116,11 +116,13 @@ const InvitationPage = () => {
             organizationId: dataToken?.org_id || 0,
             password: data.password,
             token: token || '',
+        }).then(() => {
+            navigate('/');
         });
     };
-    if (isSuccess) {
-        navigate('/');
-    }
+    // if (isSuccess) {
+    //     navigate('/');
+    // }
 
     return (
         <LayoutAuth>

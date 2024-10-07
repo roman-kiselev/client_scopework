@@ -5,6 +5,11 @@ export type { IListByScopeWorkId } from './IListByScopeWorkId';
 export type { IResScopeWorkByUserAndObject } from './IResScopeWorkByUserAndObject';
 export type { IScopeWork } from './IScopeWork';
 export type { IScopeWorkPlusData } from './IScopeWorkPlusData';
-export type { IScopeWorkData, IScopeWorkSlice } from './IScopeWorkSlice';
+export type {
+    IFilteringOptions,
+    IHomeFilteringOptions,
+    IScopeWorkData,
+    IScopeWorkSlice,
+} from './IScopeWorkSlice';
 export type { IScopeWorkWithData } from './IScopeWorkWithData';
 export type { IScopeWorkWithDataDto } from './res/IScopeWorkWithDataDto';

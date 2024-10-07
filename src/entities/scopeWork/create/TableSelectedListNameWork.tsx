@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -43,9 +43,18 @@ interface DataType {
 
 const TableSelectedListNameWork = () => {
     const dispatch = useAppDispatch();
+
     const handleDel = (id: number) => {
         dispatch(delForCreate(id));
     };
+
+    const { id: scopeWorkId } = useAppSelector(
+        (store) => store.scopeWork.selectedScopeWorkById
+    );
+    const { listNameWork } = useAppSelector(
+        (store) => store.scopeWork.scopeWorkData
+    );
+
     const columns: ColumnsType<DataType> = [
         {
             title: '№',
@@ -58,7 +67,7 @@ const TableSelectedListNameWork = () => {
             key: 'number',
             render: (num) => (
                 <Link
-                    to={`http://localhost:3000/admin/object/list/listItem/${num}`}
+                    to={`${process.env.REACT_APP_URL_API_LOCAL}/admin/object/list/listItem/${num}`}
                 >
                     {num}
                 </Link>
@@ -79,9 +88,11 @@ const TableSelectedListNameWork = () => {
             dataIndex: 'action',
             key: 'action',
             render: (num) => (
-                <Button danger onClick={() => handleDel(num)}>
-                    Удалить
-                </Button>
+                <Space>
+                    <Button danger onClick={() => handleDel(num)}>
+                        Удалить
+                    </Button>
+                </Space>
             ),
         },
     ];
@@ -90,9 +101,7 @@ const TableSelectedListNameWork = () => {
         dispatch(resetScopeWorkData());
     }, []);
     // Получим списки
-    const { listNameWork } = useAppSelector(
-        (store) => store.scopeWork.scopeWorkData
-    );
+
     const data = listNameWork?.map((item, index) => {
         const { id, name, description } = item;
 

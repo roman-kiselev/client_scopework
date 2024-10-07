@@ -13,8 +13,20 @@ export interface IScopeWorkData {
     typeWork: ITypeWork | null;
 }
 
+export interface IFilteringOptions {
+    home: IHomeFilteringOptions;
+}
+
+export interface IHomeFilteringOptions {
+    onlyCompleted: boolean;
+    onlyNotCompleted: boolean;
+    objectName: string;
+    typeWorkName: string;
+}
+
 export interface IScopeWorkSlice {
     selectedTypeWorkId: string;
+    filteringOptions: IFilteringOptions;
     nameWorksSelected: INameListWork[] | [];
     scopeWorkData: IScopeWorkData;
     selectedScopeWorkById: IScopeWorkWithData;

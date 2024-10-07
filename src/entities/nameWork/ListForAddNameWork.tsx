@@ -1,7 +1,11 @@
 import { Button, Col, Form, Row, Select, Space, Spin, message } from 'antd';
+import { MessageInstance } from 'antd/es/message/interface';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { IOneItemForListNameWorkEdit } from 'src/shared/interfaces/models';
+import {
+    INameListWork,
+    IOneItemForListNameWorkEdit,
+} from 'src/shared/interfaces/models';
 import * as XLSX from 'xlsx';
 import {
     listNameWorkApi,
@@ -11,12 +15,15 @@ import {
 } from '../../shared/api';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks';
 import {
-    INameListWork,
     IOneItemForListNameWork,
     ITypeWork,
     IUnit,
 } from '../../shared/interfaces';
-import { resetForOneItem, setSelectedTypeWork } from '../../shared/models';
+import {
+    resetForOneItem,
+    setNameAndDescription,
+    setSelectedTypeWork,
+} from '../../shared/models';
 import { ModelArrStandart } from '../../shared/utils';
 import { EditTableForNewList } from './table';
 
@@ -28,7 +35,73 @@ interface INameWorkFromExcel {
     unit: string;
 }
 
-// Интерфейс одной строки
+const key = 'updatable';
+const keyTwo = 'save';
+const openMessageEdit = (
+    messageApi: MessageInstance,
+    err: boolean,
+    key: string
+) => {
+    messageApi.open({
+        key,
+        type: 'loading',
+        content: 'Подождите...',
+    });
+    if (!err) {
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'success',
+                content: 'Сохранено',
+                duration: 2,
+            });
+        }, 2000);
+    } else {
+        setTimeout(() => {
+            messageApi.open({
+                key,
+                type: 'error',
+                content: 'Не удалось сохранить',
+                duration: 2,
+            });
+        }, 2000);
+    }
+};
+const openMessageSave = (
+    messageApi: MessageInstance,
+    err: boolean,
+    id: number,
+    keyTwo: string
+) => {
+    messageApi.open({
+        key: keyTwo,
+        type: 'loading',
+        content: 'Подождите...',
+    });
+    if (!err) {
+        setTimeout(() => {
+            messageApi.open({
+                key: keyTwo,
+                type: 'success',
+                content: (
+                    <Link to={`/admin/object/list/listItem/${id}`}>
+                        Перейти к списку
+                    </Link>
+                ),
+                duration: 6,
+            });
+        }, 2000);
+    } else {
+        setTimeout(() => {
+            messageApi.open({
+                key: keyTwo,
+                type: 'error',
+                content: 'Не удалось сохранить',
+                duration: 2,
+            });
+        }, 2000);
+    }
+};
 
 const sumQuantity = (arr: any[]) => {
     const result = arr.reduce((acc, currentItem) => {
@@ -56,79 +129,27 @@ const sumQuantity = (arr: any[]) => {
 const ListForAddNameWork = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
+    const [form] = Form.useForm();
 
-    //const [dataExcel, setDataExcel] = useState<INameWorkFromExcel[] | []>([]);
     const { data: dataUnits } = unitsApi.useGetAllUnitsQuery();
     const { data: dataTypeWork } = typeWorkApi.useGetAllShortQuery();
+    // const { data: dataTypeWorks } = typeWorkApi.useGetAllShortQuery();
+    const [createList, { isError: isErrorSave }] =
+        listNameWorkApi.useCreateListMutation();
+    const [editList] = listNameWorkApi.useEditListMutation();
+    const [createNameWork, { isLoading: isLoadingCreateNameWork }] =
+        nameWorkApi.useCreateExcelForListMutation();
     const arrUnit = new ModelArrStandart<IUnit>(dataUnits ?? []);
     const arrTypeWork = new ModelArrStandart<ITypeWork>(dataTypeWork ?? []);
-    // Уведомление о сохранении
+
     const [messageApi, contextHolder] = message.useMessage();
-    const key = 'updatable';
-    const keyTwo = 'save';
-    const openMessageEdit = (err: boolean) => {
-        messageApi.open({
-            key,
-            type: 'loading',
-            content: 'Подождите...',
-        });
-        if (!err) {
-            setTimeout(() => {
-                messageApi.open({
-                    key,
-                    type: 'success',
-                    content: 'Сохранено',
-                    duration: 2,
-                });
-            }, 2000);
-        } else {
-            setTimeout(() => {
-                messageApi.open({
-                    key,
-                    type: 'error',
-                    content: 'Не удалось сохранить',
-                    duration: 2,
-                });
-            }, 2000);
-        }
-    };
-    const openMessageSave = (err: boolean, id: number) => {
-        messageApi.open({
-            key: keyTwo,
-            type: 'loading',
-            content: 'Подождите...',
-        });
-        if (!err) {
-            setTimeout(() => {
-                messageApi.open({
-                    key: keyTwo,
-                    type: 'success',
-                    content: (
-                        <Link to={`/admin/object/list/listItem/${id}`}>
-                            Перейти к списку
-                        </Link>
-                    ),
-                    duration: 6,
-                });
-            }, 2000);
-        } else {
-            setTimeout(() => {
-                messageApi.open({
-                    key: keyTwo,
-                    type: 'error',
-                    content: 'Не удалось сохранить',
-                    duration: 2,
-                });
-            }, 2000);
-        }
-    };
+    const [valueOption, setValueOption] = useState(0);
 
     const { idNumber, typeWorkId, name, description, list } = useAppSelector(
         (store) => store.nameWorkList.oneItem
     );
-
     const { selectedTypeWork } = useAppSelector((store) => store.nameWorkList);
-    const [form] = Form.useForm();
+
     const dataForSave: IOneItemForListNameWork = {
         name,
         description,
@@ -143,24 +164,15 @@ const ListForAddNameWork = () => {
         typeWorkId,
         list,
     };
-    const [createList, { isError: isErrorSave }] =
-        listNameWorkApi.useCreateListMutation();
-    const [editList] = listNameWorkApi.useEditListMutation();
-
-    // Данные выбора типов
-    // Получаем данные о типах для первой загрузки
-    // Получение типов при изменении select
-    const [valueOption, setValueOption] = useState(0);
-
-    const { data: dataTypeWorks } = typeWorkApi.useGetAllShortQuery();
 
     const { isLoading: isLoadingNameWork } =
         nameWorkApi.useGetAllNameWorkByTypeWorkIdQuery({
             typeWorkId:
                 idNumber && typeWorkId !== null ? typeWorkId : selectedTypeWork,
         });
+
     if (isLoadingNameWork) <Spin />;
-    const dataOption = dataTypeWorks?.map((type) => {
+    const dataOption = dataTypeWork?.map((type) => {
         const { id, name } = type;
         return { value: id, label: name };
     });
@@ -174,9 +186,6 @@ const ListForAddNameWork = () => {
     const { isError: isErrorMain } = useAppSelector(
         (store) => store.nameWorkList
     );
-
-    const [createNameWork, { isLoading: isLoadingCreateNameWork }] =
-        nameWorkApi.useCreateExcelForListMutation();
 
     const handleFileUpload = async (event: any) => {
         const file = event.target.files[0];
@@ -222,33 +231,28 @@ const ListForAddNameWork = () => {
         reader.readAsArrayBuffer(file);
     };
 
-    // Функция первого сохранения
     useEffect(() => {
-        // Тестовая отправка
         if (idNumber !== null && idNumber !== undefined) {
             editList(dataForEdit);
         }
     }, []);
     const handleFirstSave = async () => {
         const res = await createList(dataForSave);
-
         const { data } = res as { data: INameListWork };
         dispatch(resetForOneItem());
-        openMessageSave(isErrorSave, data.id ?? 0);
+        handleSelectChange(0);
+        dispatch(setNameAndDescription({ name: '', description: '' }));
+        openMessageSave(messageApi, isErrorSave, data.id ?? 0, keyTwo);
     };
-
-    // Функция сохранения при редактировании
 
     const handleEdit = async () => {
         if (id) {
             editList(dataForEdit);
-            openMessageEdit(isErrorMain);
-            setValueOption(0);
+            openMessageEdit(messageApi, isErrorMain, key);
+            handleSelectChange(0);
         }
     };
 
-    // Удаление
-    // TODO Реализовать удаление
     return (
         <>
             {contextHolder}
@@ -262,7 +266,6 @@ const ListForAddNameWork = () => {
                         ) : (
                             <Button
                                 type="primary"
-                                // Отключаем кнопку если тип не выбран
                                 disabled={valueOption === 0 ? true : false}
                                 onClick={handleFirstSave}
                             >
@@ -270,13 +273,11 @@ const ListForAddNameWork = () => {
                             </Button>
                         )}
                     </Col>
-
                     <Col style={{ boxSizing: 'border-box', marginRight: 10 }}>
                         <Select
                             defaultValue={idNumber ? typeWorkId : 0}
+                            value={valueOption || typeWorkId}
                             style={{ width: 180 }}
-                            // loading
-                            // Отключаем выбор если уже выбран тип
                             disabled={
                                 idNumber || list?.length >= 1 ? true : false
                             }
@@ -295,24 +296,9 @@ const ListForAddNameWork = () => {
                                         accept=".xlsx"
                                         onChange={handleFileUpload}
                                     />
-                                    {/* {isLoading ? <Spin /> : null}
-                            {isSuccess ? (
-                                <CheckCircleOutlined
-                                    style={{ color: "green", fontSize: 30 }}
-                                />
-                            ) : null}
-                            {isError ? (
-                                <MinusCircleOutlined
-                                    style={{ color: "red", fontSize: 30 }}
-                                />
-                            ) : null} */}
                                 </>
                             )}
                         </Space>
-
-                        {/* <Button type="primary">
-                            Добавить из Excel
-                        </Button> */}
                     </Col>
                 </Row>
                 <EditTableForNewList form={form} />

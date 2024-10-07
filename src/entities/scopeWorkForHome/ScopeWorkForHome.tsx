@@ -1,12 +1,17 @@
 import { Progress, Row, Space, Spin } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RoleString } from 'src/shared/config';
+import {
+    resetFilteringOptions,
+    setOnlyNotCompleted,
+} from 'src/shared/models/scopeWork';
 import { ButtonExcelWithParams, ModalDownloadScopework } from 'src/shared/ui';
+import FilterForScopeWork from 'src/shared/ui/filter/FilterForScopeWork';
 import { checkRole } from 'src/shared/utils';
 import { scopeWorkApi } from '../../shared/api';
-import { useAppSelector } from '../../shared/hooks';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks';
 
 interface DataType {
     key: string;
@@ -86,13 +91,31 @@ interface DataType {
 // ];
 
 const ScopeWorkForHome = () => {
+    const dispatch = useAppDispatch();
     const { id, banned, roles } = useAppSelector((store) => store.auth);
+    const { objectName, onlyCompleted, onlyNotCompleted, typeWorkName } =
+        useAppSelector((store) => store.scopeWork.filteringOptions.home);
     const [selectedId, setSelectedId] = useState<string>('');
     const [open, setOpen] = useState<boolean>(false);
-    const { data, isLoading } = scopeWorkApi.useGetShortSqlQuery({
-        id: id !== null ? id.toString() : '',
-    });
+    const { data, isLoading, refetch } = scopeWorkApi.useGetShortSqlQuery(
+        {
+            id: id!,
+            objectName: objectName,
+            typeWorkName: typeWorkName,
+            onlyCompleted: onlyCompleted,
+            onlyNotCompleted: onlyNotCompleted,
+        },
+        {
+            skip: !id || banned,
+            refetchOnMountOrArgChange: true,
+            refetchOnFocus: true,
+        }
+    );
 
+    useEffect(() => {
+        dispatch(resetFilteringOptions());
+        dispatch(setOnlyNotCompleted(true));
+    }, []);
     const handleClickShowModal = (id: string) => {
         setSelectedId(id);
         setOpen(true);
@@ -193,6 +216,7 @@ const ScopeWorkForHome = () => {
     }
     return (
         <>
+            <FilterForScopeWork refetch={refetch} />
             <Row>
                 <ModalDownloadScopework
                     idScopeWork={selectedId}

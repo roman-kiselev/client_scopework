@@ -1,7 +1,12 @@
 import { IOneItemForListNameWorkEdit } from 'src/shared/interfaces/models';
 import { INameListWork, IOneItemForListNameWork } from '../../interfaces';
 import { mainApi } from '../main';
-///list-name-work/byTypeWork/2
+
+interface IUnpin {
+    id: number;
+    scopeWorkId: number;
+}
+
 export const listNameWorkApi = mainApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllNames: builder.query<INameListWork, void>({
@@ -53,6 +58,15 @@ export const listNameWorkApi = mainApi.injectEndpoints({
                 return {
                     url: `/list-name-work/copy/${id.id}`,
                     method: 'GET',
+                };
+            },
+        }),
+        unpinList: builder.mutation<INameListWork, IUnpin>({
+            query: ({ id, scopeWorkId }) => {
+                return {
+                    url: `/list-name-work/unpin-list/${id}`,
+                    method: 'PATCH',
+                    body: { scopeWorkId },
                 };
             },
         }),
