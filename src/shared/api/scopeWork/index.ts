@@ -1,4 +1,5 @@
 import {
+    IReqScopeworkShort,
     IResQuickOneScopeWorkById,
     IScopeworkShort,
 } from 'src/shared/interfaces/api';
@@ -60,11 +61,43 @@ export const scopeWorkApi = mainApi.injectEndpoints({
                 body: data,
             }),
         }),
-        getShortSql: builder.query<IScopeworkShort[], { id: string }>({
-            query: ({ id }) => ({
-                url: `/scope-work/getShort/${id}`,
-                method: 'GET',
-            }),
+        getShortSql: builder.query<IScopeworkShort[], IReqScopeworkShort>({
+            query: ({
+                id,
+                objectName,
+                onlyCompleted,
+                onlyNotCompleted,
+                typeWorkName,
+            }) => {
+                const params: Record<string, string> = {};
+                if (
+                    objectName &&
+                    objectName !== 'Выбор объекта' &&
+                    objectName !== ''
+                ) {
+                    params.objectName = String(objectName);
+                }
+                if (
+                    typeWorkName &&
+                    typeWorkName !== 'Выбор типа работ' &&
+                    typeWorkName !== ''
+                ) {
+                    params.typeWorkName = String(typeWorkName);
+                }
+                if (onlyCompleted) {
+                    params.onlyCompleted = String(onlyCompleted);
+                }
+                if (onlyNotCompleted) {
+                    params.onlyNotCompleted = String(onlyNotCompleted);
+                }
+
+                const queryStr = new URLSearchParams(params).toString();
+
+                return {
+                    url: `/scope-work/getShort/${id}/?${queryStr}`,
+                    method: 'GET',
+                };
+            },
         }),
         getHistory: builder.query<
             any,

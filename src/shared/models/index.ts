@@ -39,6 +39,7 @@ export {
     addUsers,
     delForCreate,
     delForEdit,
+    delList,
     editUsers,
     resetScopeWorkData,
     scopeWorkReducer,

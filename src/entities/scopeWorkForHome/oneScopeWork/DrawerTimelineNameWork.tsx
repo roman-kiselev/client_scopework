@@ -36,13 +36,14 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
     isLoading,
 }) => {
     const { id } = useAppSelector((store) => store.auth);
+    const { listUsers } = useAppSelector((store) => store.users);
+
     const [handleRemove] = tableAddingDataApi.useRemoveMutation();
     const [handleRecovery] = tableAddingDataApi.useRecoveryMutation();
     const [handleCandidateDel] =
         tableAddingDataApi.useCreateCandidateDelMutation();
     const [handleConfirm] = tableAddingDataApi.useConfirmMutation();
 
-    const { listUsers } = useAppSelector((store) => store.users);
     const handleClickRemove = (id: number) => {
         handleRemove({ id: id }).then(() => refetch());
         handleClickQuery();
@@ -61,9 +62,9 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
         handleCandidateDel({
             userId: userId !== null ? userId : 0,
             tableAddingDataId,
-        });
+        }).then(() => refetch());
         handleClickQuery();
-        refetch();
+        // refetch();
     };
 
     const handleClickConfirm = (id: number, idDelCandidate: number) => {
@@ -116,7 +117,10 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
                                         />
                                     )}
                                 </p>{' '}
-                                {checkRole(roles, RoleString.MASTER) &&
+                                {checkRole(roles, [
+                                    RoleString.MASTER,
+                                    RoleString.WORKER,
+                                ]) &&
                                     item.delCandidate === null &&
                                     item.deletedAt === null && (
                                         <Button

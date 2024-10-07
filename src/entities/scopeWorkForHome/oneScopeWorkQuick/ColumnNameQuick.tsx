@@ -41,9 +41,7 @@ const ColumnNameQuick: React.FC<IColumnNameQuickProps> = ({
             nameWorkId,
             scopeWorkId: Number(scopeWorkId),
         });
-    // const [dataTimeline, setDataTimeline] = useState<
-    //     IDataGetHistoryForNameWorkId[] | []
-    // >([]);
+
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);

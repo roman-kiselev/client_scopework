@@ -7,12 +7,21 @@ import {
     ITypeWork,
     IUserWithDescriptionDto,
 } from '../../interfaces';
+import FilteringOptionsHome from './FilteringOptionsHome';
 import GetOneByTypeWorkId from './GetOneByTypeWorkId';
 import GetOneScopeWorkById from './GetOneScopeWorkById';
 
 const initialState: IScopeWorkSlice = {
     selectedTypeWorkId: '',
     nameWorksSelected: [],
+    filteringOptions: {
+        home: {
+            onlyCompleted: false,
+            onlyNotCompleted: false,
+            objectName: '',
+            typeWorkName: '',
+        },
+    },
     scopeWorkData: {
         listNameWork: [],
         namesWorkGeneral: [],
@@ -131,6 +140,19 @@ export const scopeWorkSlice = createSlice({
             state.selectedTypeWorkId = '';
             state.nameWorksSelected = [];
         },
+
+        delList: (
+            state,
+            action: PayloadAction<{ id: number; idScopeWork: number }>
+        ) => {
+            console.log(action.payload);
+
+            state.selectedScopeWorkById.listNameWork =
+                state.selectedScopeWorkById?.listNameWork.filter(
+                    (item) => item.id !== action.payload.id
+                );
+        },
+
         delForCreate: (state, action) => {
             const id = action.payload;
             state.scopeWorkData.listNameWork =
@@ -192,6 +214,12 @@ export const scopeWorkSlice = createSlice({
                 state.selectedScopeWorkById.users = arr;
             }
         },
+
+        setObjectName: FilteringOptionsHome.setObjectName,
+        setTypeWorkName: FilteringOptionsHome.setTypeWorkName,
+        setOnlyCompleted: FilteringOptionsHome.setOnlyCompleted,
+        setOnlyNotCompleted: FilteringOptionsHome.setOnlyNotCompleted,
+        resetFilteringOptions: FilteringOptionsHome.reset,
     },
     extraReducers(builder) {
         // Получаем списки по id
@@ -235,5 +263,11 @@ export const {
     delForEdit,
     addNameListForEdit,
     editUsers,
+    delList,
+    setObjectName,
+    setOnlyCompleted,
+    setOnlyNotCompleted,
+    setTypeWorkName,
+    resetFilteringOptions,
 } = scopeWorkSlice.actions;
 export const scopeWorkReducer = scopeWorkSlice.reducer;

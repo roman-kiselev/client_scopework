@@ -1,9 +1,12 @@
 import { RoleString } from '../config';
 
-export const checkRole = (data: string[], name: RoleString): boolean => {
-    const findedRole = data.find((item) => item === name);
-    if (findedRole) {
-        return true;
+export const checkRole = (
+    data: string[],
+    name: RoleString | RoleString[]
+): boolean => {
+    if (Array.isArray(name)) {
+        return name.some((item) => data.includes(item));
     }
-    return false;
+
+    return data.includes(name);
 };
