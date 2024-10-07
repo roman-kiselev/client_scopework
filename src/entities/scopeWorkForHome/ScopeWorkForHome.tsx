@@ -99,7 +99,6 @@ const ScopeWorkForHome = () => {
     const [open, setOpen] = useState<boolean>(false);
     const { data, isLoading, refetch } = scopeWorkApi.useGetShortSqlQuery(
         {
-            id: id!,
             objectName: objectName,
             typeWorkName: typeWorkName,
             onlyCompleted: onlyCompleted,

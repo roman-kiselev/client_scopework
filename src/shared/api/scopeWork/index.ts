@@ -63,7 +63,6 @@ export const scopeWorkApi = mainApi.injectEndpoints({
         }),
         getShortSql: builder.query<IScopeworkShort[], IReqScopeworkShort>({
             query: ({
-                id,
                 objectName,
                 onlyCompleted,
                 onlyNotCompleted,
@@ -94,7 +93,7 @@ export const scopeWorkApi = mainApi.injectEndpoints({
                 const queryStr = new URLSearchParams(params).toString();
 
                 return {
-                    url: `/scope-work/getShort/${id}/?${queryStr}`,
+                    url: `/scope-work/getShort/?${queryStr}`,
                     method: 'GET',
                 };
             },
