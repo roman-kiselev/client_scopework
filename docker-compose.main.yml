@@ -1,0 +1,51 @@
+networks:
+    dev:
+        driver: bridge
+
+services:
+    nginx:
+        image: nginx:stable-alpine
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "./nginx.conf:/etc/nginx/nginx.conf"
+        depends_on:
+            - iam
+            - scopework
+            - manager
+            - frontend
+        networks:
+            - dev
+
+    iam:
+        build:
+            context: ./iam_mservice
+        networks:
+            - dev
+        env_file:
+            - ./iam_mservice/.env
+
+    scopework:
+        build:
+            context: ./scopework_mservice
+        networks:
+            - dev
+        env_file:
+            - ./scopework_mservice/.env
+
+    manager:
+        build:
+            context: ./manager_mservice
+        networks:
+            - dev
+        env_file:
+            - ./manager_mservice/.env
+
+    frontend:
+        build:
+            context: ./client_scopework
+        networks:
+            - dev
+        env_file:
+            - ./client_scopework/.env
