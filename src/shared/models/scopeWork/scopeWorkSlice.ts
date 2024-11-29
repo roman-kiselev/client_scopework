@@ -20,6 +20,7 @@ const initialState: IScopeWorkSlice = {
             onlyNotCompleted: false,
             objectName: '',
             typeWorkName: '',
+            isDel: false,
         },
     },
     scopeWorkData: {
@@ -219,6 +220,7 @@ export const scopeWorkSlice = createSlice({
         setTypeWorkName: FilteringOptionsHome.setTypeWorkName,
         setOnlyCompleted: FilteringOptionsHome.setOnlyCompleted,
         setOnlyNotCompleted: FilteringOptionsHome.setOnlyNotCompleted,
+        setCandidateForDel: FilteringOptionsHome.setCandidateForDel,
         resetFilteringOptions: FilteringOptionsHome.reset,
     },
     extraReducers(builder) {
@@ -269,5 +271,6 @@ export const {
     setOnlyNotCompleted,
     setTypeWorkName,
     resetFilteringOptions,
+    setCandidateForDel,
 } = scopeWorkSlice.actions;
 export const scopeWorkReducer = scopeWorkSlice.reducer;

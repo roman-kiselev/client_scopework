@@ -31,7 +31,6 @@ const OneScopeWorkForEditQuick = () => {
     );
 
     const [searchedText, setSearchedText] = useState('');
-
     const dataValue = scopeWorkDataQuick?.map((item) => {
         return {
             idNameWork: item.nameWorkId,
@@ -45,14 +44,6 @@ const OneScopeWorkForEditQuick = () => {
     );
 
     const [dataForTable, setDataForTable] = useState<any[]>([]);
-
-    // const dataForTable = scopeWorkDataQuick?.map((item, index) => {
-    //     return {
-    //         ...item,
-    //         key: (index + 1).toString(),
-    //         index: (index + 1).toString(),
-    //     };
-    // });
 
     useEffect(() => {
         const dataValue = scopeWorkDataQuick?.map((item) => {
@@ -97,31 +88,35 @@ const OneScopeWorkForEditQuick = () => {
             render: (
                 _: any,
                 {
-                    id,
                     name,
                     nameWorkId,
                     percent,
-                    quntityMain,
-                    remainderQuntity,
                     unitName,
+                    isDel,
+                    nameListId,
+                    quantity,
+                    quantitySum,
+                    remains,
+                    verfulfilment,
                     unitId,
                 }
             ) => (
                 <ColumnNameQuick
                     isLoading={isLoading}
                     name={name}
-                    nameListId={id}
+                    nameListId={nameListId}
                     nameWorkId={nameWorkId}
                     percent={percent ? percent : 0}
                     scopeWorkId={idScopeWork ? +idScopeWork : 0}
                     refetch={refetch}
                     remainderQuntity={
-                        remainderQuntity !== null
-                            ? remainderQuntity
-                            : quntityMain || 0
+                        remains !== null ? remains : quantity || 0
                     }
-                    unitId={unitId}
                     unitName={unitName}
+                    isDel={isDel}
+                    quantitySum={quantitySum}
+                    verfulfilment={verfulfilment}
+                    unitId={unitId}
                 />
             ),
         },
@@ -129,9 +124,9 @@ const OneScopeWorkForEditQuick = () => {
             title: 'Количество',
             dataIndex: 'quntity',
             key: 'quntity',
-            render: (_: any, { id, nameWorkId, listNameWorkId }) => (
+            render: (_: any, { nameListId, nameWorkId, listNameWorkId }) => (
                 <ColumnQuntityQuick
-                    nameListId={id}
+                    nameListId={nameListId}
                     data={dataList}
                     listNameWorkId={listNameWorkId}
                     scopeWorkId={idScopeWork?.toString() || '0'}

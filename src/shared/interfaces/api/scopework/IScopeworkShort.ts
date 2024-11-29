@@ -1,10 +1,13 @@
 export interface IScopeworkShort {
     id: number;
     deletedAt: Date | null;
-    nameTypework: string;
     nameObject: string;
+    nameTypeWork: string;
+    remains: number;
     sum: number;
     sumCurrent: number;
-    remainder: number;
     percent: number;
+    totalPercentage: number;
+    verfulfilment: number;
+    isDel: boolean;
 }

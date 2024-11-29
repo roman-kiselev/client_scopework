@@ -106,10 +106,10 @@ const OneScopeWorkForEdit = () => {
                     percent,
                     quntity,
                     count,
-                    unitId,
                     nameListId,
                     nameWorkId,
                     scopeWorkId,
+                    unitId,
                 }
             ) => (
                 <ColumnName

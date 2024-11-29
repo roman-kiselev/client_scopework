@@ -52,10 +52,6 @@ const ScopeWorkAddDataWithList = () => {
         };
     });
 
-    // const onChange = (key: string | string[]) => {
-    //     console.log(key);
-    // };
-
     return (
         <>
             <Row>

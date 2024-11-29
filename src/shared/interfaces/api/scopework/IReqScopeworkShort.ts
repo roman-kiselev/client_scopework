@@ -3,4 +3,5 @@ export interface IReqScopeworkShort {
     typeWorkName?: string;
     onlyCompleted?: boolean;
     onlyNotCompleted?: boolean;
+    isDel?: boolean;
 }

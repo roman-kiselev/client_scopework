@@ -1,8 +1,9 @@
-import { Col, Radio, RadioChangeEvent, Row, Select } from 'antd';
+import { Col, Radio, RadioChangeEvent, Row, Select, Switch } from 'antd';
 import React from 'react';
 import { objectsApi, typeWorkApi } from 'src/shared/api';
-import { useAppDispatch } from 'src/shared/hooks';
+import { useAppDispatch, useAppSelector } from 'src/shared/hooks';
 import {
+    setCandidateForDel,
     setObjectName,
     setOnlyCompleted,
     setOnlyNotCompleted,
@@ -55,6 +56,9 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
     const dispatch = useAppDispatch();
     const { data: dataObjects } = objectsApi.useGetAllShortDataQuery();
     const { data: dataTypeWorks } = typeWorkApi.useGetAllShortQuery();
+    const { isDel } = useAppSelector(
+        (store) => store.scopeWork.filteringOptions.home
+    );
 
     const optionsObjects = createOptions(dataObjects ?? [], 'Выбор объекта');
     const optionsTypeWorks = createOptions(
@@ -67,7 +71,6 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
             case 'onlyCompleted':
                 dispatch(setOnlyCompleted(true));
                 dispatch(setOnlyNotCompleted(false));
-
                 break;
             case 'onlyNotCompleted':
                 dispatch(setOnlyNotCompleted(true));
@@ -81,6 +84,10 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
             default:
                 break;
         }
+    };
+    const handleChangeSwitch = (checked: boolean) => {
+        dispatch(setCandidateForDel(!isDel));
+        // refetch();
     };
 
     return (
@@ -136,6 +143,14 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
                             .includes(input.toLowerCase())
                     }
                     options={optionsTypeWorks ?? []}
+                />
+            </Col>
+            <Col>
+                <Switch
+                    checked={isDel}
+                    checkedChildren="Все"
+                    unCheckedChildren="Для удаления"
+                    onChange={(checked) => handleChangeSwitch(checked)}
                 />
             </Col>
         </Row>

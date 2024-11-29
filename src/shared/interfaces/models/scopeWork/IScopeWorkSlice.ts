@@ -22,6 +22,7 @@ export interface IHomeFilteringOptions {
     onlyNotCompleted: boolean;
     objectName: string;
     typeWorkName: string;
+    isDel: boolean;
 }
 
 export interface IScopeWorkSlice {

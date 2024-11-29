@@ -67,6 +67,7 @@ export const scopeWorkApi = mainApi.injectEndpoints({
                 onlyCompleted,
                 onlyNotCompleted,
                 typeWorkName,
+                isDel,
             }) => {
                 const params: Record<string, string> = {};
                 if (
@@ -88,6 +89,10 @@ export const scopeWorkApi = mainApi.injectEndpoints({
                 }
                 if (onlyNotCompleted) {
                     params.onlyNotCompleted = String(onlyNotCompleted);
+                }
+
+                if (isDel) {
+                    params.isDel = String(isDel);
                 }
 
                 const queryStr = new URLSearchParams(params).toString();

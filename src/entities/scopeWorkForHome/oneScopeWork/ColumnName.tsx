@@ -5,7 +5,7 @@ import { tableAddingDataApi, unitsApi } from 'src/shared/api';
 import { RoleString } from 'src/shared/config';
 import { useAppDispatch, useAppSelector } from 'src/shared/hooks';
 import { IDataGetHistoryForNameWorkId } from 'src/shared/interfaces/api';
-import { checkRole, getUnit } from 'src/shared/utils';
+import { checkRole } from 'src/shared/utils';
 import DrawerTimelineNameWork from './DrawerTimelineNameWork';
 
 interface IColumnNameProps {
@@ -14,6 +14,7 @@ interface IColumnNameProps {
     quntity: number;
     count: number;
     unitId: number;
+    unitName?: string;
     isLoading: boolean;
     nameListId: number;
     nameWorkId: number;
@@ -26,12 +27,13 @@ const ColumnName: React.FC<IColumnNameProps> = ({
     name,
     percent,
     quntity,
-    unitId,
+    unitName,
     isLoading,
     nameListId,
     nameWorkId,
     scopeWorkId,
     refetch,
+    unitId,
 }) => {
     const dispatch = useAppDispatch();
     const { roles } = useAppSelector((store) => store.auth);
@@ -74,7 +76,6 @@ const ColumnName: React.FC<IColumnNameProps> = ({
                 name={name}
                 onClose={onClose}
                 open={open}
-                unitId={unitId}
                 roles={roles}
                 nameListId={nameListId}
                 nameWorkId={nameListId}
@@ -82,14 +83,15 @@ const ColumnName: React.FC<IColumnNameProps> = ({
                 handleClickQuery={handleClickQuery}
                 refetch={refetch}
                 isLoading={isLoading}
+                unitName={unitName || ''}
+                unitId={unitId}
             />
             <>
                 <p>{name}</p>
                 {checkRole(roles, RoleString.MASTER) ||
                 checkRole(roles, RoleString.ADMIN) ? (
                     <Tag color="red">
-                        Ост. {quntity - count}{' '}
-                        {getUnit(dataUnit, unitId) || `ед.`}
+                        Ост. {quntity - count} {unitName}
                     </Tag>
                 ) : null}
                 <Button onClick={handleClick} size="small">

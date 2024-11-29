@@ -1,43 +1,23 @@
-import { QuestionCircleFilled } from '@ant-design/icons';
-import { Button, Drawer, Space, Spin, Timeline } from 'antd';
+import React from 'react';
+import { useParams } from 'react-router';
 import { tableAddingDataApi } from 'src/shared/api';
-import { RoleString } from 'src/shared/config';
-import { useAppSelector } from 'src/shared/hooks';
-import { IUnit, IUserWithDescriptionDto } from 'src/shared/interfaces';
-import { IDataGetHistoryForNameWorkId } from 'src/shared/interfaces/api';
-import { checkRole, getDate, getItem } from 'src/shared/utils';
 
-interface IDrawerTimelineNameWork {
-    name: string;
-    onClose: () => void;
-    open: boolean;
-    dataTimeline: IDataGetHistoryForNameWorkId[];
-    dataUnit: IUnit[];
-    unitName: string;
-    roles: string[];
+interface IDrawerTimelineNameWorkMain {
     nameListId: number;
     nameWorkId: number;
-    scopeWorkId: number;
-    handleClickQuery: () => void;
-    refetch: any;
-    isLoading: boolean;
-    unitId: number;
 }
 
-const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
-    name,
-    onClose,
-    open,
-    dataTimeline,
-    dataUnit,
-    unitName,
-    roles,
-    handleClickQuery,
-    refetch,
-    isLoading,
+const DrawerTimelineNameWorkMain: React.FC<IDrawerTimelineNameWorkMain> = ({
+    nameListId,
+    nameWorkId,
 }) => {
-    const { id } = useAppSelector((store) => store.auth);
-    const { listUsers } = useAppSelector((store) => store.users);
+    const { id: scopeWorkId } = useParams<{ id: string }>();
+    const { data: dataTimeline, refetch: refetchTimeline } =
+        tableAddingDataApi.useHistoryForNameQuery({
+            nameListId,
+            nameWorkId,
+            scopeWorkId: Number(scopeWorkId),
+        });
 
     const [handleRemove] = tableAddingDataApi.useRemoveMutation();
     const [handleRecovery] = tableAddingDataApi.useRecoveryMutation();
@@ -45,42 +25,43 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
         tableAddingDataApi.useCreateCandidateDelMutation();
     const [handleConfirm] = tableAddingDataApi.useConfirmMutation();
 
-    const handleClickRemove = (id: number) => {
-        handleRemove({ id: id }).then(() => refetch());
-        handleClickQuery();
-        // refetch();
-    };
-    const handleClickRecovery = (id: number) => {
-        handleRecovery({ id: id });
-        handleClickQuery();
-        refetch();
-    };
+    // const handleClickRemove = (id: number) => {
+    //     handleRemove({ id: id }).then(() => refetch());
+    //     handleClickQuery();
+    //     // refetch();
+    // };
+    // const handleClickRecovery = (id: number) => {
+    //     handleRecovery({ id: id });
+    //     handleClickQuery();
+    //     refetch();
+    // };
 
-    const handleClickCandidate = (
-        userId: number | null,
-        tableAddingDataId: number
-    ) => {
-        handleCandidateDel({
-            userId: userId !== null ? userId : 0,
-            tableAddingDataId,
-        }).then(() => refetch());
-        handleClickQuery();
-        // refetch();
-    };
+    // const handleClickCandidate = (
+    //     userId: number | null,
+    //     tableAddingDataId: number
+    // ) => {
+    //     handleCandidateDel({
+    //         userId: userId !== null ? userId : 0,
+    //         tableAddingDataId,
+    //     }).then(() => refetch());
+    //     handleClickQuery();
+    //     // refetch();
+    // };
 
-    const handleClickConfirm = (id: number, idDelCandidate: number) => {
-        handleConfirm({ id, idDelCandidate });
-        handleClickQuery();
-        refetch();
-    };
+    // const handleClickConfirm = (id: number, idDelCandidate: number) => {
+    //     handleConfirm({ id, idDelCandidate });
+    //     handleClickQuery();
+    //     refetch();
+    // };
 
-    if (isLoading) {
-        return <Spin />;
-    }
+    // if (isLoading) {
+    //     return <Spin />;
+    // }
 
     return (
         <>
-            <Drawer title={name} onClose={onClose} open={open}>
+            Hello
+            {/* <Drawer title={name} onClose={onClose} open={open}>
                 <Timeline
                     items={dataTimeline.map((item) => ({
                         children: (
@@ -191,9 +172,9 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
                         ),
                     }))}
                 />
-            </Drawer>
+            </Drawer> */}
         </>
     );
 };
 
-export default DrawerTimelineNameWork;
+export default DrawerTimelineNameWorkMain;

@@ -39,6 +39,13 @@ export class FilteringOptionsHome
         state.filteringOptions.home.onlyNotCompleted = action.payload;
     };
 
+    setCandidateForDel: CaseReducer<
+        IScopeWorkSlice,
+        { payload: boolean; type: string }
+    > = (state, action) => {
+        state.filteringOptions.home.isDel = action.payload;
+    };
+
     reset: CaseReducer<IScopeWorkSlice> = (state) => {
         state.filteringOptions.home.objectName = '';
         state.filteringOptions.home.typeWorkName = '';
