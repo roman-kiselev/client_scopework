@@ -99,6 +99,17 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
         }
     };
 
+    const handleSelectTypeWork = (value: string) => {
+        const result = optionsTypeWorks.find(
+            (item) => item.value === Number(value)
+        );
+        if (result) {
+            dispatch(setTypeWorkName(result.label));
+        } else {
+            dispatch(setTypeWorkName(''));
+        }
+    };
+
     return (
         <Row style={{ marginBottom: 10 }}>
             <Col>
@@ -138,15 +149,16 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
                 <Select
                     showSearch
                     placeholder="Выбор типа работ"
-                    onChange={(value, option) => {
-                        dispatch(
-                            setTypeWorkName(
-                                !Array.isArray(option)
-                                    ? option.label
-                                    : option[0].label
-                            )
-                        );
-                    }}
+                    // onChange={(value, option) => {
+                    //     dispatch(
+                    //         setTypeWorkName(
+                    //             !Array.isArray(option)
+                    //                 ? option.label
+                    //                 : option[0].label
+                    //         )
+                    //     );
+                    // }}
+                    onChange={handleSelectTypeWork}
                     filterOption={(input, option) =>
                         (option?.label ?? '')
                             .toLowerCase()
