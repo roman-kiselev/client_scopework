@@ -90,6 +90,15 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
         // refetch();
     };
 
+    const handleSelect = (value: string) => {
+        const result = options.find((item) => item.value === value);
+        if (result) {
+            dispatch(setObjectName(result.label));
+        } else {
+            dispatch(setObjectName(''));
+        }
+    };
+
     return (
         <Row style={{ marginBottom: 10 }}>
             <Col>
@@ -107,15 +116,16 @@ const FilterForScopeWork: React.FC<IFilterForScopeWork> = ({ refetch }) => {
                 <Select
                     showSearch
                     placeholder="Выбор объекта"
-                    onChange={(value, option) => {
-                        dispatch(
-                            setObjectName(
-                                !Array.isArray(option)
-                                    ? option.label
-                                    : option[0].label
-                            )
-                        );
-                    }}
+                    // onChange={(value, option) => {
+                    //     dispatch(
+                    //         setObjectName(
+                    //             !Array.isArray(option)
+                    //                 ? option.label
+                    //                 : option[0].label
+                    //         )
+                    //     );
+                    // }}
+                    onChange={handleSelect}
                     filterOption={(input, option) =>
                         (option?.label ?? '')
                             .toLowerCase()
