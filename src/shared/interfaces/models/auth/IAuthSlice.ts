@@ -1,5 +1,5 @@
 import { RoleString } from 'src/shared/config';
-import { IDataError } from '../../api';
+import { IError } from '../../api';
 
 export interface IAuthSlice {
     roles: RoleString[];
@@ -10,6 +10,6 @@ export interface IAuthSlice {
     isAuth: boolean;
     isLoading: boolean;
     isError: boolean;
-    dataError: IDataError | null;
+    dataError: IError | null;
     token: string | null;
 }

@@ -7,68 +7,17 @@ import { newUserApi, scopeWorkApi } from 'src/shared/api';
 import { useAppSelector } from 'src/shared/hooks';
 import { IValueForListData } from 'src/shared/interfaces';
 import { IResQuickOneScopeWorkById } from 'src/shared/interfaces/api';
+import DrawerTimelineNameWorkMain from './DrawerTimelineNameWorkMain';
+import { IPropsName, IPropsQuantity } from './interfaces';
 import ColumnNameQuick from './oneScopeWorkQuick/ColumnNameQuick';
 import ColumnQuntityQuick from './oneScopeWorkQuick/ColumnQuntityQuick';
+import ColumnNameModal from './oneScopeWorkQuick/columnName/ColumnNameModal';
 
-const OneScopeWorkForEditQuick = () => {
-    const { id: idScopeWork } = useParams();
-    const { banned } = useAppSelector((store) => store.auth);
-
-    const { isLoading: isLoadingUser } = newUserApi.useGetAllUserListQuery();
-
-    const {
-        data: scopeWorkDataQuick,
-        isLoading,
-        refetch,
-    } = scopeWorkApi.useQuickOneScopeWorkByIdQuery(
-        {
-            id:
-                idScopeWork !== undefined && !banned
-                    ? idScopeWork.toString()
-                    : '0',
-        },
-        { skip: !idScopeWork, refetchOnMountOrArgChange: true }
-    );
-
-    const [searchedText, setSearchedText] = useState('');
-    const dataValue = scopeWorkDataQuick?.map((item) => {
-        return {
-            idNameWork: item.nameWorkId,
-            listNameWorkId: item.listNameWorkId,
-            value: '',
-        } as IValueForListData;
-    });
-
-    const [dataList, setDataList] = useState<IValueForListData[]>(
-        dataValue || []
-    );
-
-    const [dataForTable, setDataForTable] = useState<any[]>([]);
-
-    useEffect(() => {
-        const dataValue = scopeWorkDataQuick?.map((item) => {
-            return {
-                idNameWork: item.nameWorkId,
-                value: '',
-                listNameWorkId: item.listNameWorkId,
-            } as IValueForListData;
-        });
-        const arr = scopeWorkDataQuick?.map((item, index) => {
-            return {
-                ...item,
-                key: (index + 1).toString(),
-                index: (index + 1).toString(),
-            };
-        });
-
-        setDataForTable(arr ?? []);
-        setDataList(dataValue || []);
-    }, [idScopeWork, scopeWorkDataQuick]);
-
-    if (isLoading || isLoadingUser) {
-        return <Spin />;
-    }
-
+const prepareColumns = (
+    { idScopeWork, isLoading, refetch }: IPropsName,
+    { dataList, setDataList }: IPropsQuantity,
+    searchedText: string
+) => {
     const columns: ColumnsType<IResQuickOneScopeWorkById> = [
         {
             title: '',
@@ -138,8 +87,77 @@ const OneScopeWorkForEditQuick = () => {
         },
     ];
 
+    return columns;
+};
+
+const OneScopeWorkForEditQuick = () => {
+    const { id: idScopeWork } = useParams();
+    const { banned } = useAppSelector((store) => store.auth);
+
+    const { isLoading: isLoadingUser } = newUserApi.useGetAllUserListQuery();
+
+    const {
+        data: scopeWorkDataQuick,
+        isLoading,
+        refetch,
+    } = scopeWorkApi.useQuickOneScopeWorkByIdQuery(
+        {
+            id:
+                idScopeWork !== undefined && !banned
+                    ? idScopeWork.toString()
+                    : '0',
+        },
+        { skip: !idScopeWork, refetchOnMountOrArgChange: true }
+    );
+    const [searchedText, setSearchedText] = useState('');
+    const dataValue = scopeWorkDataQuick?.map((item) => {
+        return {
+            idNameWork: item.nameWorkId,
+            listNameWorkId: item.listNameWorkId,
+            value: '',
+        } as IValueForListData;
+    });
+
+    const [dataList, setDataList] = useState<IValueForListData[]>(
+        dataValue || []
+    );
+
+    const [dataForTable, setDataForTable] = useState<any[]>([]);
+
+    const columns = prepareColumns(
+        { idScopeWork: Number(idScopeWork), isLoading, refetch },
+        { dataList, setDataList },
+        searchedText
+    );
+
+    useEffect(() => {
+        const dataValue = scopeWorkDataQuick?.map((item) => {
+            return {
+                idNameWork: item.nameWorkId,
+                value: '',
+                listNameWorkId: item.listNameWorkId,
+            } as IValueForListData;
+        });
+        const arr = scopeWorkDataQuick?.map((item, index) => {
+            return {
+                ...item,
+                key: (index + 1).toString(),
+                index: (index + 1).toString(),
+            };
+        });
+
+        setDataForTable(arr ?? []);
+        setDataList(dataValue || []);
+    }, [idScopeWork, scopeWorkDataQuick]);
+
+    if (isLoading || isLoadingUser) {
+        return <Spin />;
+    }
+
     return (
         <Col>
+            <ColumnNameModal refetch={refetch} />
+            <DrawerTimelineNameWorkMain />
             <Row>
                 <Link to={`/${idScopeWork}/list`}>
                     <Button>Изменить вид</Button>

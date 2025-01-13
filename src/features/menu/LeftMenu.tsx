@@ -14,7 +14,7 @@ import {
     UserAddOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Menu, MenuProps } from 'antd';
+import { Badge, Menu, MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
 import { RoleString, getItem } from '../../shared/config';
 import { useAppSelector } from '../../shared/hooks';
@@ -155,6 +155,15 @@ const LeftMenu = () => {
                         getItem(
                             <Link to="/admin/object">Статистика</Link>,
                             'configuration',
+                            [RoleString.ADMIN],
+                            rolesState,
+                            <ToolOutlined />
+                        ),
+                        getItem(
+                            <Link to="/admin/objectNew">
+                                <Badge color={'blue'} text={'Статистика'} />
+                            </Link>,
+                            'configurationNew',
                             [RoleString.ADMIN],
                             rolesState,
                             <ToolOutlined />

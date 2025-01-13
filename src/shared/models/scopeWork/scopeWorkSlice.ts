@@ -10,6 +10,9 @@ import {
 import FilteringOptionsHome from './FilteringOptionsHome';
 import GetOneByTypeWorkId from './GetOneByTypeWorkId';
 import GetOneScopeWorkById from './GetOneScopeWorkById';
+import HelpersScopeWork from './HelpersScopeWork';
+import HelpersScopeWorkModal from './HelpersScopeWorkModal';
+import { getNameListByIdBuilder } from './query/IGetNameListById';
 
 const initialState: IScopeWorkSlice = {
     selectedTypeWorkId: '',
@@ -21,6 +24,22 @@ const initialState: IScopeWorkSlice = {
             objectName: '',
             typeWorkName: '',
             isDel: false,
+        },
+    },
+    helpersScopeWork: {
+        drawerTimeline: {
+            stateDrawerTimeline: false,
+            nameListId: null,
+            nameWorkId: null,
+            name: '',
+            unitName: '',
+        },
+        columnNameModal: {
+            open: false,
+            name: '',
+            quntity: null,
+            unitId: null,
+            nameListId: null,
         },
     },
     scopeWorkData: {
@@ -49,7 +68,6 @@ const initialState: IScopeWorkSlice = {
         quantityDifference: null,
         quntity: null,
     },
-    // selectedScopeWorkById: null,
     isError: false,
     isLoading: false,
     dataError: null,
@@ -146,8 +164,6 @@ export const scopeWorkSlice = createSlice({
             state,
             action: PayloadAction<{ id: number; idScopeWork: number }>
         ) => {
-            console.log(action.payload);
-
             state.selectedScopeWorkById.listNameWork =
                 state.selectedScopeWorkById?.listNameWork.filter(
                     (item) => item.id !== action.payload.id
@@ -222,6 +238,11 @@ export const scopeWorkSlice = createSlice({
         setOnlyNotCompleted: FilteringOptionsHome.setOnlyNotCompleted,
         setCandidateForDel: FilteringOptionsHome.setCandidateForDel,
         resetFilteringOptions: FilteringOptionsHome.reset,
+        setStateDrawerTimeline: HelpersScopeWork.setStateDrawerTimeline,
+        closeDrawerTimeline: HelpersScopeWork.closeDrawerTimeline,
+        setModal: HelpersScopeWorkModal.setStateModal,
+        setNameListId: HelpersScopeWorkModal.setNameListId,
+        setQuntity: HelpersScopeWorkModal.setQuntity,
     },
     extraReducers(builder) {
         // Получаем списки по id
@@ -251,6 +272,7 @@ export const scopeWorkSlice = createSlice({
             scopeWorkApi.endpoints.getOneByIdScopeWork.matchRejected,
             GetOneScopeWorkById.rejected
         );
+        getNameListByIdBuilder(builder);
     },
 });
 
@@ -272,5 +294,10 @@ export const {
     setTypeWorkName,
     resetFilteringOptions,
     setCandidateForDel,
+    setStateDrawerTimeline,
+    closeDrawerTimeline,
+    setModal,
+    setNameListId,
+    setQuntity,
 } = scopeWorkSlice.actions;
 export const scopeWorkReducer = scopeWorkSlice.reducer;

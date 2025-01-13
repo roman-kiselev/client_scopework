@@ -1,3 +1,7 @@
+export interface IDelTableAddingData {
+    id: number;
+}
+
 export interface IDataGetHistoryForNameWorkId {
     id: number;
     quntity: number;
@@ -5,4 +9,5 @@ export interface IDataGetHistoryForNameWorkId {
     createdAt: Date;
     deletedAt: Date | null;
     delCandidate: number | null;
+    delTableAddingData: IDelTableAddingData | null;
 }

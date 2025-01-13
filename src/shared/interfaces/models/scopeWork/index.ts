@@ -6,7 +6,9 @@ export type { IResScopeWorkByUserAndObject } from './IResScopeWorkByUserAndObjec
 export type { IScopeWork } from './IScopeWork';
 export type { IScopeWorkPlusData } from './IScopeWorkPlusData';
 export type {
+    IDrawerTimeline,
     IFilteringOptions,
+    IHelpersScopeWork,
     IHomeFilteringOptions,
     IScopeWorkData,
     IScopeWorkSlice,

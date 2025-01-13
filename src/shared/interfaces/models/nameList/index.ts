@@ -1,3 +1,3 @@
-import { INameListForNameWork } from './INameListForNameWork';
+export type { INameListForNameWork } from './INameListForNameWork';
 
-export type { INameListForNameWork };
+export type { INameListById } from './INameListById';

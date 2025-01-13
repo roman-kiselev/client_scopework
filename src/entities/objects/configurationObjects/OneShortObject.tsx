@@ -38,6 +38,7 @@ const OneShortObject: React.FC<IOneObjectDataShort> = ({
     percentAll,
 }) => {
     const { data, isLoading } = typeWorkApi.useGetAllShortQuery();
+
     const getTypeName = (id: number) => {
         const findedTypeWork = data?.find((item) => item.id === id);
         if (findedTypeWork) {

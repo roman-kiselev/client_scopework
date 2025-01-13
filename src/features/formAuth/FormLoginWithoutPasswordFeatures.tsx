@@ -41,7 +41,6 @@ const FormLoginWithoutPasswordFeatures = () => {
             <FormLoginWithoutPassword
                 form={form}
                 onFinish={onFinish}
-                dataError={dataError}
                 isError={isError}
             />
         </LayoutAuth>

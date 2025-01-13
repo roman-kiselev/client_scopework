@@ -1,4 +1,9 @@
 import {
+    IObjectRechartsDataAndCountDto,
+    IObjectRechartsTypeWorkDataDto,
+} from 'src/shared/interfaces/models';
+import {
+    IGetDataRechartsProgressDto,
     IObjectCreateAttr,
     IObjectCreateResponse,
     IObjectFullData,
@@ -40,6 +45,33 @@ export const objectsApi = mainApi.injectEndpoints({
                 url: `/objects/shortAllObjects`,
                 method: 'GET',
             }),
+        }),
+        getAllDataRechartsProgress: builder.query<
+            IObjectRechartsDataAndCountDto,
+            IGetDataRechartsProgressDto
+        >({
+            query: (queryParams) => {
+                const queryParamsData: Record<string, string> = {};
+                queryParamsData.limit = queryParams.limit.toString();
+                queryParamsData.offset = queryParams.offset.toString();
+
+                const query = new URLSearchParams(queryParamsData).toString();
+                return {
+                    url: `/objects/data-recharts-progress/?${query}`,
+                    method: 'GET',
+                };
+            },
+        }),
+        getAllDataRechartsTypeWork: builder.query<
+            IObjectRechartsTypeWorkDataDto,
+            { objectId: number }
+        >({
+            query: ({ objectId }) => {
+                return {
+                    url: `/objects/data-recharts-type-work/${objectId}`,
+                    method: 'GET',
+                };
+            },
         }),
     }),
 });

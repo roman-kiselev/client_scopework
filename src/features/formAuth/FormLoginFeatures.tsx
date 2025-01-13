@@ -1,4 +1,5 @@
-import { Form, Spin } from 'antd';
+import { Form } from 'antd';
+import { useEffect } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router';
 import { FormLogin } from '../../entities';
 import { LayoutAuth } from '../../entities/layoutAuth';
@@ -15,15 +16,27 @@ const FormLoginFeatures = () => {
         (state) => state.auth
     );
 
-    const [login, { isLoading: isLoadingLogin }] = authApi.useLoginMutation();
+    const [
+        login,
+        {
+            isLoading: isLoadingLogin,
+            isError: isErrorLogin,
+            isSuccess: isSuccessLogin,
+            data: loginData,
+        },
+    ] = authApi.useLoginMutation();
+
+    useEffect(() => {
+        if (isSuccessLogin && loginData) {
+            // Перенаправляем на главную, если есть успешный ответ после входа
+            navigate(location.state?.from || '/', { replace: true });
+        }
+    }, [isSuccessLogin, loginData]);
+
     const onFinish = async () => {
         await login(data);
-        navigate(location.state?.from || '/', { replace: true });
     };
-    if (isLoading || isLoadingLogin) {
-        return <Spin />;
-    }
-    // TODO проверить работу(в данный момент ошибка)
+
     if (isAuth && token) {
         // navigate(location.state?.from || "/", { replace: true });
         return (
@@ -34,13 +47,14 @@ const FormLoginFeatures = () => {
             />
         );
     }
+
     return (
         <LayoutAuth>
             <FormLogin
-                isError={isError}
-                dataError={dataError}
+                isErrorLogin={isErrorLogin}
                 form={form}
                 onFinish={onFinish}
+                isLoading={isLoading || isLoadingLogin}
             />
         </LayoutAuth>
     );

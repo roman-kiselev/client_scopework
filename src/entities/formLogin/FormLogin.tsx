@@ -1,8 +1,8 @@
-import { Button, Card, Form, Row, Typography } from 'antd';
+import { Alert, Button, Card, Form, Row, Spin, Typography } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from 'src/shared/hooks';
 import {
-    IDataError,
     IInputFormItemProps,
     IInputPasswordFormItemProps,
 } from '../../shared/interfaces';
@@ -50,11 +50,19 @@ const propsPassword: IInputPasswordFormItemProps = {
 interface IFormLoginProps {
     form: any;
     onFinish: (values: any) => void;
-    isError: boolean;
-    dataError: IDataError | null;
+    isErrorLogin: boolean;
+    isLoading: boolean;
 }
 
-const FormLogin: React.FC<IFormLoginProps> = ({ form, onFinish }) => {
+const FormLogin: React.FC<IFormLoginProps> = ({
+    form,
+    onFinish,
+    isErrorLogin,
+}) => {
+    const { dataError, isError, isLoading, isAuth, token } = useAppSelector(
+        (state) => state.auth
+    );
+
     return (
         <>
             <Card title="Вход" bordered={true} style={{ maxWidth: 400 }}>
@@ -73,29 +81,37 @@ const FormLogin: React.FC<IFormLoginProps> = ({ form, onFinish }) => {
                         tooltip={propsPassword.tooltip}
                         rules={propsPassword.rules}
                     />
-                    {/* {isError && (
-                        <Row>
+                    {isError && isErrorLogin ? (
+                        <Row justify={'center'}>
                             <Alert
-                                message={dataError?.data.message}
+                                message={dataError?.errorDetails.message}
                                 type="error"
                             />
                         </Row>
-                    )} */}
-                    <Row>
-                        <Link to={'/login-without-password'}>
-                            Войти без пароля
-                        </Link>
-                    </Row>
-                    <Row>
-                        <Text>Нет аккаунта?</Text>
-                        <Link to={'/register'}>Зарегистрироваться</Link>
-                    </Row>
+                    ) : null}
 
-                    <Row style={{ marginTop: 10 }}>
-                        <Button type="primary" htmlType="submit">
-                            Вход
-                        </Button>
-                    </Row>
+                    {isLoading ? (
+                        <Spin />
+                    ) : (
+                        <>
+                            <Row>
+                                <Link to={'/login-without-password'}>
+                                    Войти без пароля
+                                </Link>
+                            </Row>
+                            <Row>
+                                <Text>Нет аккаунта?</Text>
+                                <Link to={'/register'}>Зарегистрироваться</Link>
+                            </Row>
+
+                            <Row style={{ marginTop: 10 }}>
+                                <Button type="primary" htmlType="submit">
+                                    Вход
+                                </Button>
+                            </Row>
+                        </>
+                    )}
+
                     <Row>
                         <Paragraph
                             style={{ fontSize: '12px', marginTop: '40px' }}

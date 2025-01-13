@@ -10,5 +10,6 @@ export interface IResQuickWithGroup {
     updatedAt: Date;
     typeWorkId: number;
     scopeWorkId: number;
+    // list: IResQuickOneScopeWorkWithGroup[];
     list: IResQuickOneScopeWorkById[];
 }

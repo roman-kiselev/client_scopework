@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { AxiosError } from 'axios';
+import { IError } from '../interfaces';
 import {
     axiosInstance,
     axiosInstanceIam,
@@ -40,7 +41,8 @@ const axiosBaseQuery =
 
             return result;
         } catch (axiosError) {
-            const err = axiosError as AxiosError;
+            const err = axiosError as AxiosError<IError>;
+
             return {
                 error: {
                     status: err.response?.status,
@@ -64,7 +66,8 @@ const axiosBaseQueryWithIam =
 
             return result;
         } catch (axiosError) {
-            const err = axiosError as AxiosError;
+            const err = axiosError as AxiosError<IError>;
+
             return {
                 error: {
                     status: err.response?.status,
@@ -89,6 +92,7 @@ const axiosBaseQueryManagerWithIam =
             return result;
         } catch (axiosError) {
             const err = axiosError as AxiosError;
+
             return {
                 error: {
                     status: err.response?.status,

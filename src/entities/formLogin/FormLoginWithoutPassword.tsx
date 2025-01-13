@@ -3,7 +3,7 @@ import { FormInstance } from 'antd/lib/form';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { mailApi } from 'src/shared/api';
-import { IDataError, IInputFormItemProps } from '../../shared/interfaces';
+import { IInputFormItemProps } from '../../shared/interfaces';
 import { InputFormItem } from '../../shared/ui';
 
 const { Text } = Typography;
@@ -50,7 +50,6 @@ interface IFormLoginProps {
     form: FormInstance<any>;
     onFinish: (values: any) => void;
     isError: boolean;
-    dataError: IDataError | null;
 }
 
 const FormLoginWithoutPassword: React.FC<IFormLoginProps> = ({

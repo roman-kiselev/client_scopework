@@ -31,6 +31,10 @@ const OneScopeWorkForEditQuickTab: React.FC<
         dataValue || []
     );
 
+    const [dataForTable, setDataForTable] = useState<
+        IResQuickOneScopeWorkById[]
+    >([]);
+
     useEffect(() => {
         const dataValue = list.map((item) => {
             return {
@@ -40,16 +44,17 @@ const OneScopeWorkForEditQuickTab: React.FC<
             } as IValueForListData;
         });
 
-        setDataList(dataValue || []);
-    }, [list]);
+        const dataForTable = list.map((item, index) => {
+            return {
+                ...item,
+                key: (index + 1).toString(),
+                index: (index + 1).toString(),
+            };
+        });
 
-    const dataForTable = list.map((item, index) => {
-        return {
-            ...item,
-            key: (index + 1).toString(),
-            index: (index + 1).toString(),
-        };
-    });
+        setDataList(dataValue || []);
+        setDataForTable(dataForTable || []);
+    }, [list]);
 
     const columns: ColumnsType<IResQuickOneScopeWorkById> = [
         {

@@ -6,6 +6,7 @@ import { IObjectShort } from './IObjectShort';
 import { IObjectsSlice } from './IObjectSlice';
 import { IOneObjectDataShort } from './IOneObjectDataShort';
 import { IOneScopeWorkWithData } from './IOneScopeWorkWithData';
+export * from './dto';
 
 export type {
     IFinishUserAdding,

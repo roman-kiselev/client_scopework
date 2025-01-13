@@ -25,9 +25,30 @@ export interface IHomeFilteringOptions {
     isDel: boolean;
 }
 
+export interface IDrawerTimeline {
+    stateDrawerTimeline: boolean;
+    nameListId: number | null;
+    nameWorkId: number | null;
+    name: string;
+    unitName: string;
+}
+
+export interface IColumnNameModal {
+    open: boolean;
+    nameListId: number | null;
+    name: string;
+    quntity: string | null;
+    unitId: number | null;
+}
+export interface IHelpersScopeWork {
+    drawerTimeline: IDrawerTimeline;
+    columnNameModal: IColumnNameModal;
+}
+
 export interface IScopeWorkSlice {
     selectedTypeWorkId: string;
     filteringOptions: IFilteringOptions;
+    helpersScopeWork: IHelpersScopeWork;
     nameWorksSelected: INameListWork[] | [];
     scopeWorkData: IScopeWorkData;
     selectedScopeWorkById: IScopeWorkWithData;

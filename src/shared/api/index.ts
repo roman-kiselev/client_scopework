@@ -4,6 +4,7 @@ export { inviteTokensApi } from './inviteTokens';
 export { listNameWorkApi } from './listNameWork';
 export { mailApi } from './mail';
 export { iamApi, mainApi, mainManagerApi } from './main';
+export * from './nameList';
 export { nameWorkApi } from './nameWork';
 export { objectsApi } from './objects';
 export { orderReceiptApi } from './orderReceipt';

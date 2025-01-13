@@ -56,18 +56,31 @@ axiosInstanceIam.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401) {
-            const { data } = await axios.post(
-                `${process.env.REACT_APP_URL_API_IAM}/authentication/refresh-tokens`,
-                {},
-                {
-                    withCredentials: true,
-                }
-            );
-            localStorage.setItem('token', data.data.accessToken);
 
-            return axiosInstanceIam.request(originalRequest);
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true; // Предотвращаем бесконечный цикл при неудачном обновлении
+            try {
+                const { data } = await axios.post(
+                    `${process.env.REACT_APP_URL_API_IAM}/authentication/refresh-tokens`,
+                    {},
+                    {
+                        withCredentials: true,
+                    }
+                );
+                localStorage.setItem('token', data.data.accessToken);
+
+                return axiosInstanceIam.request(originalRequest);
+            } catch (refreshError) {
+                // Ошибка при обновлении токена - возможно, refresh токен тоже истек
+                //  Здесь можно сделать логаут, перенаправление на страницу логина
+                // console.error('Ошибка обновления токена:', refreshError);
+                localStorage.removeItem('token');
+                // window.location.href = '/login';
+                return Promise.reject(error);
+            }
         }
+
+        return Promise.reject(error);
     }
 );
 

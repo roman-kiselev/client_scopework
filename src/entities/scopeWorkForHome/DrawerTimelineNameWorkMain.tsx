@@ -1,179 +1,80 @@
-import React from 'react';
+import { Drawer, Row, Space, Timeline } from 'antd';
 import { useParams } from 'react-router';
 import { tableAddingDataApi } from 'src/shared/api';
+import { useAppDispatch, useAppSelector } from 'src/shared/hooks';
+import { closeDrawerTimeline } from 'src/shared/models/scopeWork';
+import CancelMarkForDeletion from './drawerTimelineMain/CancelMarkForDeletion';
+import ConfirmDeletion from './drawerTimelineMain/ConfirmDeletion';
+import DelItemTimeline from './drawerTimelineMain/DelItemTimeline';
+import InfoTimeline from './drawerTimelineMain/InfoTimeline';
+import MarkForDeletion from './drawerTimelineMain/MarkForDeletion';
+import RecoverItemTimeline from './drawerTimelineMain/RecoverItemTimeline';
 
-interface IDrawerTimelineNameWorkMain {
-    nameListId: number;
-    nameWorkId: number;
-}
+const DrawerTimelineNameWorkMain = () => {
+    const dispatch = useAppDispatch();
+    const { id: scopeWorkId } = useParams();
+    const { stateDrawerTimeline, nameListId, nameWorkId, name, unitName } =
+        useAppSelector(
+            (store) => store.scopeWork.helpersScopeWork.drawerTimeline
+        );
 
-const DrawerTimelineNameWorkMain: React.FC<IDrawerTimelineNameWorkMain> = ({
-    nameListId,
-    nameWorkId,
-}) => {
-    const { id: scopeWorkId } = useParams<{ id: string }>();
     const { data: dataTimeline, refetch: refetchTimeline } =
-        tableAddingDataApi.useHistoryForNameQuery({
-            nameListId,
-            nameWorkId,
-            scopeWorkId: Number(scopeWorkId),
-        });
+        tableAddingDataApi.useHistoryForNameQuery(
+            {
+                nameListId: !nameListId ? 0 : nameListId,
+                nameWorkId: !nameWorkId ? 0 : nameWorkId,
+                scopeWorkId: Number(scopeWorkId),
+            },
+            {
+                skip:
+                    !stateDrawerTimeline ||
+                    nameListId === null ||
+                    nameWorkId === null,
+            }
+        );
 
-    const [handleRemove] = tableAddingDataApi.useRemoveMutation();
-    const [handleRecovery] = tableAddingDataApi.useRecoveryMutation();
-    const [handleCandidateDel] =
-        tableAddingDataApi.useCreateCandidateDelMutation();
-    const [handleConfirm] = tableAddingDataApi.useConfirmMutation();
-
-    // const handleClickRemove = (id: number) => {
-    //     handleRemove({ id: id }).then(() => refetch());
-    //     handleClickQuery();
-    //     // refetch();
-    // };
-    // const handleClickRecovery = (id: number) => {
-    //     handleRecovery({ id: id });
-    //     handleClickQuery();
-    //     refetch();
-    // };
-
-    // const handleClickCandidate = (
-    //     userId: number | null,
-    //     tableAddingDataId: number
-    // ) => {
-    //     handleCandidateDel({
-    //         userId: userId !== null ? userId : 0,
-    //         tableAddingDataId,
-    //     }).then(() => refetch());
-    //     handleClickQuery();
-    //     // refetch();
-    // };
-
-    // const handleClickConfirm = (id: number, idDelCandidate: number) => {
-    //     handleConfirm({ id, idDelCandidate });
-    //     handleClickQuery();
-    //     refetch();
-    // };
-
-    // if (isLoading) {
-    //     return <Spin />;
-    // }
+    const handleClick = () => {
+        dispatch(closeDrawerTimeline(false));
+    };
 
     return (
-        <>
-            Hello
-            {/* <Drawer title={name} onClose={onClose} open={open}>
-                <Timeline
-                    items={dataTimeline.map((item) => ({
-                        children: (
-                            <>
-                                <p
-                                    style={
-                                        item.deletedAt === null
-                                            ? { color: 'black' }
-                                            : { color: 'grey' }
-                                    }
-                                >
-                                    {item.id}.{' '}
-                                    {
-                                        getItem<IUserWithDescriptionDto>(
-                                            listUsers,
-                                            item.userId,
-                                            'id'
-                                        )?.description.firstname
-                                    }{' '}
-                                    {
-                                        getItem<IUserWithDescriptionDto>(
-                                            listUsers,
-                                            item.userId,
-                                            'id'
-                                        )?.description.lastname
-                                    }{' '}
-                                    - {item.quntity} {unitName}- (
-                                    {getDate(item.createdAt)})
-                                    {item.delCandidate !== null && (
-                                        <QuestionCircleFilled
-                                            style={{
-                                                color: 'red',
-                                            }}
+        <Drawer
+            title={'История изменений'}
+            onClose={handleClick}
+            open={stateDrawerTimeline}
+        >
+            <>
+                <Row style={{ marginBottom: '10px' }}>
+                    <h4>{name}</h4>
+                </Row>
+                <Row style={{ marginTop: '10px' }}>
+                    {dataTimeline ? (
+                        <Timeline
+                            items={dataTimeline.map((item) => ({
+                                children: (
+                                    <>
+                                        <InfoTimeline
+                                            item={item}
+                                            unitName={unitName}
                                         />
-                                    )}
-                                </p>{' '}
-                                {checkRole(roles, [
-                                    RoleString.MASTER,
-                                    RoleString.WORKER,
-                                ]) &&
-                                    item.delCandidate === null &&
-                                    item.deletedAt === null && (
-                                        <Button
-                                            onClick={() =>
-                                                handleClickCandidate(
-                                                    id,
-                                                    item.id
-                                                )
-                                            }
-                                            size="small"
-                                        >
-                                            Пометить на удаление
-                                        </Button>
-                                    )}
-                                <Space>
-                                    {checkRole(roles, RoleString.ADMIN) &&
-                                        item.deletedAt === null && (
-                                            <Button
-                                                size="small"
-                                                danger
-                                                type="primary"
-                                                onClick={() =>
-                                                    handleClickRemove(item.id)
-                                                }
-                                            >
-                                                Удалить
-                                            </Button>
-                                        )}
-                                    {checkRole(roles, RoleString.ADMIN) &&
-                                        item.deletedAt === null &&
-                                        item.id !== null &&
-                                        item.delCandidate !== null && (
-                                            <Button
-                                                onClick={() => {
-                                                    if (
-                                                        item.id !== null &&
-                                                        item.delCandidate !==
-                                                            null
-                                                    ) {
-                                                        handleClickConfirm(
-                                                            item.id,
-                                                            item.delCandidate
-                                                        );
-                                                    }
-                                                }}
-                                                size="small"
-                                                type="primary"
-                                            >
-                                                Подтвердить удаление
-                                            </Button>
-                                        )}
-                                    {checkRole(roles, RoleString.ADMIN) &&
-                                        item.deletedAt !== null && (
-                                            <Button
-                                                size="small"
-                                                style={{
-                                                    backgroundColor: 'yellow',
-                                                }}
-                                                onClick={() =>
-                                                    handleClickRecovery(item.id)
-                                                }
-                                            >
-                                                Восстановить
-                                            </Button>
-                                        )}
-                                </Space>
-                            </>
-                        ),
-                    }))}
-                />
-            </Drawer> */}
-        </>
+                                        <MarkForDeletion
+                                            item={item}
+                                            refetchTimeline={refetchTimeline}
+                                        />
+                                        <CancelMarkForDeletion item={item} />
+                                        <Space>
+                                            <DelItemTimeline item={item} />
+                                            <ConfirmDeletion item={item} />
+                                            <RecoverItemTimeline item={item} />
+                                        </Space>
+                                    </>
+                                ),
+                            }))}
+                        />
+                    ) : null}
+                </Row>
+            </>
+        </Drawer>
     );
 };
 

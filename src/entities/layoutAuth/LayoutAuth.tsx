@@ -8,19 +8,6 @@ interface LayoutAuthProps {
 
 const LayoutAuth: React.FC<LayoutAuthProps> = ({ children }) => {
     return (
-        // <div
-        //     style={{
-        //         minHeight: "100vh",
-        //         display: "flex",
-        //         alignItems: "center",
-        //         justifyContent: "center",
-        //     }}
-        // >
-        //     <Row>
-        //         <Col span={20}>{children}</Col>
-        //     </Row>
-        // </div>
-
         <Layout>
             <Content>
                 <Row

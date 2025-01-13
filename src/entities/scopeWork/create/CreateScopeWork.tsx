@@ -63,10 +63,8 @@ const CreateScopeWork = () => {
     const [createScopeWork] = scopeWorkApi.useCreateScopeWorkMutation();
     const { data: dataObject, isLoading: isLoadingObject } =
         objectsApi.useGetAllObjectsQuery();
-
     const { data: dataUsers, isLoading: isLoadingUser } =
         newUserApi.useGetAllUserListQuery();
-
     const { data: dataTypeWork, isLoading: isLoadingTypeWork } =
         typeWorkApi.useGetAllTypeWorkQuery();
     const { listUsers } = useAppSelector((store) => store.users);

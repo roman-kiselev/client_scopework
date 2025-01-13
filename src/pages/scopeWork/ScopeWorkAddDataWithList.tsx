@@ -39,6 +39,8 @@ const ScopeWorkAddDataWithList = () => {
     //   ];
 
     const items: CollapseProps['items'] = data?.map((item) => {
+        console.log(item);
+
         return {
             key: item.id.toString(),
             label: `${item.name} ${item.description}`,

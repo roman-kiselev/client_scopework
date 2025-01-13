@@ -55,6 +55,25 @@ listenerMiddlewareTwo.startListening({
     },
 });
 
+// export const rtkQueryErrorLogger: Middleware =
+//     (api: MiddlewareAPI) => (next) => (action) => {
+//         if (action.type.includes('Mutation')) {
+//             if (action.type.endsWith('fulfilled')) {
+//                 // Successful mutation
+//                 const successMessage =
+//                     action?.payload?.response?.message || 'Succuss!';
+//                 console.log(successMessage);
+//             } else if (action.type.endsWith('rejected')) {
+//                 // Failed mutation
+//                 const errorMessage =
+//                     action?.payload || 'Unkown Error accourred.';
+//                 console.log(errorMessage);
+//             }
+//         }
+
+//         return next(action);
+//     };
+
 const rootReducer = combineReducers({
     auth: authReducer,
     objects: objectReducer,

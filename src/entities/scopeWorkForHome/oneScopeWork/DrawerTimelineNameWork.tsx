@@ -50,6 +50,10 @@ const DrawerTimelineNameWork: React.FC<IDrawerTimelineNameWork> = ({
         handleClickQuery();
         // refetch();
     };
+    /**
+     * Handles the recovery of a removed data.
+     * @param {number} id - The id of the data to recover.
+     */
     const handleClickRecovery = (id: number) => {
         handleRecovery({ id: id });
         handleClickQuery();

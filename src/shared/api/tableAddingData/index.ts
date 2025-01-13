@@ -69,5 +69,11 @@ export const tableAddingDataApi = mainApi.injectEndpoints({
                 body: data,
             }),
         }),
+        cancel: builder.mutation<ITableAddingData, { id: number }>({
+            query: ({ id }) => ({
+                url: `/table-adding-data/cancel/${id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });

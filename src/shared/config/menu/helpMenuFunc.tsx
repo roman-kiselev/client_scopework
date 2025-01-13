@@ -16,6 +16,7 @@ function findRole(roles: RoleString[], roleState: RoleString[]): boolean {
 }
 
 type MenuItem = Required<MenuProps>['items'][number];
+
 function getItem(
     label: React.ReactNode,
     key: React.Key,

@@ -5,11 +5,14 @@ const UsersRouter = lazy(() => import('./adminUser'));
 const ObjectsRouter = lazy(() => import('./adminObjects'));
 const NameWorkRouter = lazy(() => import('./adminNameWork'));
 const LogListPage = lazy(() => import('./logList/LogListPage'));
+const AdminNewObjectsRoutes = lazy(() => import('./adminObjectsNew'));
+
 const AdminRoutes = () => {
     return (
         <Routes>
             <Route path="users/*" element={<UsersRouter />} />
             <Route path="object/*" element={<ObjectsRouter />} />
+            <Route path="objectNew/*" element={<AdminNewObjectsRoutes />} />
             <Route path="nomenclature/*" element={<NameWorkRouter />} />
             <Route path="logList" element={<LogListPage />} />
         </Routes>

@@ -8,6 +8,7 @@ const WelcomePage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isAuth, token, isLoading } = useAppSelector((state) => state.auth);
+
     if (isLoading) {
         return <Spin />;
     }
